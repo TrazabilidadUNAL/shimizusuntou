@@ -13,7 +13,7 @@ module Api::V1
       json_response(@product)
     end
 
-    # POST /product
+    # POST /products
     def create
       @product = Product.create!(product_params)
       json_response(@product, :created)
