@@ -1,11 +1,11 @@
 require 'rails_helper'
 
-RSpec.describe 'Products API', type: :request do
+RSpec.describe Api::V1::ProductsController, type: :request do
   let!(:products) { create_list(:product, 10) }
   let(:product_id) { products.first.id }
 
-  describe 'GET /products' do
-    before { get '/products' }
+  describe 'GET /v1/products' do
+    before { get '/v1/products' }
 
     it 'returns products' do
       expect(json).not_to be_empty
@@ -17,8 +17,8 @@ RSpec.describe 'Products API', type: :request do
     end
   end
 
-  describe 'GET /products/:id' do
-    before { get "/products/#{product_id}" }
+  describe 'GET /v1/products/:id' do
+    before { get "/v1/products/#{product_id}" }
 
     context 'when the record exists' do
       it 'returns the product' do
@@ -44,11 +44,11 @@ RSpec.describe 'Products API', type: :request do
     end
   end
 
-  describe 'POST /product' do
+  describe 'POST /v1/product' do
     let(:valid_attributes) { {name: 'Guinness'} }
 
     context 'when the request is valid' do
-      before { post '/products', params: valid_attributes }
+      before { post '/v1/products', params: valid_attributes }
 
       it 'creates a product' do
         expect(json['name']).to eq('Guinness')
@@ -60,7 +60,7 @@ RSpec.describe 'Products API', type: :request do
     end
 
     context 'when the request is invalid' do
-      before { post '/products', params: {naem: "Guinness"} }
+      before { post '/v1/products', params: {naem: "Guinness"} }
 
       it 'returns status code 422' do
         expect(response).to have_http_status(422)
@@ -72,11 +72,11 @@ RSpec.describe 'Products API', type: :request do
     end
   end
 
-  describe 'PUT /products/:id' do
+  describe 'PUT /v1/products/:id' do
     let(:valid_attributes) { {name: 'Guinness'} }
 
     context 'when the record exists' do
-      before { put "/products/#{product_id}", params: valid_attributes }
+      before { put "/v1/products/#{product_id}", params: valid_attributes }
 
       it 'updates the record' do
         expect(response.body).to be_empty
@@ -88,8 +88,8 @@ RSpec.describe 'Products API', type: :request do
     end
   end
 
-  describe 'DELETE /products/:id' do
-    before { delete "/products/#{product_id}" }
+  describe 'DELETE /v1/products/:id' do
+    before { delete "/v1/products/#{product_id}" }
 
     it 'returns status code 204' do
       expect(response).to have_http_status(204)
