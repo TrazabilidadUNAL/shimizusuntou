@@ -6,6 +6,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :products
       resources :containers
+      resources :places
     end
   end
 end
