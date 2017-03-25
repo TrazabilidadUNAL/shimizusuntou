@@ -7,6 +7,7 @@ Rails.application.routes.draw do
       resources :products
       resources :containers
       resources :places
+      resources :producers
     end
   end
 end

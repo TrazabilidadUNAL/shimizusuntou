@@ -69,7 +69,7 @@ RSpec.describe Api::V1::PlacesController, type: :request do
       end
 
       it 'should return a validation failure message' do
-        expect(response.body).to match(/Validation failed: Lat can't be blank/)
+        expect(response.body).to match(/Validation failed: Lat can't be blank, Lon can't be blank/)
       end
     end
   end
