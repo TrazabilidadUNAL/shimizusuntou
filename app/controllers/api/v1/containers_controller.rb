@@ -15,7 +15,7 @@ module Api::V1
 
     # POST /containers
     def create
-      @container = Product.create!(container_params)
+      @container = Container.create!(container_params)
       json_response(@container, :created)
     end
 

@@ -45,18 +45,22 @@ RSpec.describe Api::V1::ProducersController, type: :request do
   end
 
   describe 'POST /v1/producer' do
-    let(:places) { create_list(:place, 1) }
-    let(:place_id) { places.first.id }
-    let(:valid_attributes) { {place_id: place_id, first_name: "John", last_name: "Doe", username: "jdoe", password: "1234567890"} }
+    let(:place) { create(:place) }
+    let(:fname) { Faker::Name.first_name }
+    let(:lname) { Faker::Name.last_name }
+    let(:uname) { Faker::Internet.user_name }
+    let(:pswrd) { Faker::Internet.password(8) }
+    let(:valid_attributes) { {place_id: place.id, first_name: fname, last_name: lname, username: uname, password: pswrd} }
 
     context 'when the request is valid' do
       before { post '/v1/producers', params: valid_attributes }
 
       it 'should create the producer' do
-        expect(json['first_name']).to eq('John')
-        expect(json['last_name']).to eq('Doe')
-        expect(json['username']).to eq('jdoe')
-        expect(json['password']).to eq('1234567890')
+        expect(json['first_name']).to eq(fname)
+        expect(json['last_name']).to eq(lname)
+        expect(json['username']).to eq(uname)
+        expect(json['password']).to eq(pswrd)
+        expect(json['place_id']).to eq(place.id)
       end
 
       it 'should return status code 201' do

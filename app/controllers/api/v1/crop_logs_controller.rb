@@ -1,0 +1,44 @@
+module Api::V1
+  class CropLogsController < ApplicationController
+    before_action :set_crop_log, only: [:show, :update, :destroy]
+
+    # GET /crops
+    def index
+      @crop_logs = CropLog.all
+      json_response(@crop_logs)
+    end
+
+    # GET /crops/:id
+    def show
+      json_response(@crop_log)
+    end
+
+    # POST /crops
+    def create
+      @crop_log = CropLog.create!(crop_log_params)
+      json_response(@crop_log, :created)
+    end
+
+    # PUT /crops/:id
+    def update
+      @crop_log.update(crop_log_params)
+      head :no_content
+    end
+
+    # DELETE /crops/:id
+    def destroy
+      @crop_log.destroy
+      head :no_content
+    end
+
+    private
+
+    def crop_log_params
+      params.permit(:description, :crop_id)
+    end
+
+    def set_crop_log
+      @crop_log = CropLog.find(params[:id])
+    end
+  end
+end
