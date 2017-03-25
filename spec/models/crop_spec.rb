@@ -8,4 +8,7 @@ RSpec.describe Crop, type: :model do
   it { should belong_to(:container) }
   it { should belong_to(:product) }
   it { should belong_to(:producer) }
+
+  # Ensure a Crop has many CropLogs
+  it { should have_many(:crop_logs) }
 end

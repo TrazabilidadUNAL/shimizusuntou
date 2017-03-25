@@ -9,6 +9,7 @@ Rails.application.routes.draw do
       resources :places
       resources :producers
       resources :crops
+      resources :crop_logs
     end
   end
 end
