@@ -8,8 +8,8 @@ RSpec.describe Api::V1::PlacesController, type: :request do
     before { get '/v1/places' }
 
     it 'should return places' do
-      expect(response).not_to be_empty
-      expect(response.size).to eq(10)
+      expect(json).not_to be_empty
+      expect(json.size).to eq(10)
     end
 
     it 'should return status code 200' do
@@ -22,8 +22,8 @@ RSpec.describe Api::V1::PlacesController, type: :request do
 
     context 'when the record exists' do
       it 'should return the place' do
-        expect(response).not_to be_empty
-        expect(response['id']).to eq(place_id)
+        expect(json).not_to be_empty
+        expect(json['id']).to eq(place_id)
       end
 
       it 'should return status code 200' do
@@ -45,15 +45,15 @@ RSpec.describe Api::V1::PlacesController, type: :request do
   end
 
   describe 'POST /v1/places' do
-    let(:valid_attributes) { {tag: 'My farm', lat: '-74.110642', lon: '4.712504'} }
+    let(:valid_attributes) { {tag: 'My farm', lat: -74.110642, lon: 4.712504} }
 
     context 'when the request is valid' do
       before { post '/v1/places', params: valid_attributes }
 
       it 'should create a place' do
-        expect(response['tag']).to eq('My farm')
-        expect(response['lat']).to eq('-74.110642')
-        expect(response['lon']).to eq('4.712504')
+        expect(json['tag']).to eq('My farm')
+        expect(json['lat']).to eq(-74.110642)
+        expect(json['lon']).to eq(4.712504)
       end
 
       it 'should return status code 201' do

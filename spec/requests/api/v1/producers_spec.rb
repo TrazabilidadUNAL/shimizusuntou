@@ -8,8 +8,8 @@ RSpec.describe Api::V1::ProducersController, type: :request do
     before { get '/v1/producers' }
 
     it 'should return producers' do
-      expect(response).not_to be_empty
-      expect(response.size).to eq(10)
+      expect(json).not_to be_empty
+      expect(json.size).to eq(10)
     end
 
     it 'should return status code 200' do
@@ -22,8 +22,8 @@ RSpec.describe Api::V1::ProducersController, type: :request do
 
     context 'when the record exists' do
       it 'should return the producer' do
-        expect(response).not_to be_empty
-        expect(response['id']).to eq(producer_id)
+        expect(json).not_to be_empty
+        expect(json['id']).to eq(producer_id)
       end
 
       it 'should return status code 200' do
@@ -53,11 +53,10 @@ RSpec.describe Api::V1::ProducersController, type: :request do
       before { post '/v1/producers', params: valid_attributes }
 
       it 'should create the producer' do
-        pp(valid_attributes)
-        expect(response['first_name']).to eq('John')
-        expect(response['last_name']).to eq('Doe')
-        expect(response['username']).to eq('jdoe')
-        expect(response['password']).to eq('1234567890')
+        expect(json['first_name']).to eq('John')
+        expect(json['last_name']).to eq('Doe')
+        expect(json['username']).to eq('jdoe')
+        expect(json['password']).to eq('1234567890')
       end
 
       it 'should return status code 201' do
