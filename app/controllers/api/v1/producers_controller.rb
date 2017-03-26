@@ -4,7 +4,7 @@ module Api::V1
 
     # GET /producers
     def index
-      @producers = Producer.all
+      @producers = Producer.where(show: true)
       json_response(@producers)
     end
 
@@ -27,7 +27,8 @@ module Api::V1
 
     # DELETE /producers/:id
     def destroy
-      @producer.destroy
+      @producer.show = false
+      @producer.save!
       head :no_content
     end
 
@@ -38,7 +39,7 @@ module Api::V1
     end
 
     def set_producer
-      @producer = Producer.find(params[:id])
+      @producer = Producer.where(show: true).find(params[:id])
     end
   end
 end

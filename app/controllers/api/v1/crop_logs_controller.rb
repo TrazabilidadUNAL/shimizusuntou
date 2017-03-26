@@ -4,7 +4,7 @@ module Api::V1
 
     # GET /crops
     def index
-      @crop_logs = CropLog.all
+      @crop_logs = CropLog.where(show: true)
       json_response(@crop_logs)
     end
 
@@ -27,7 +27,8 @@ module Api::V1
 
     # DELETE /crops/:id
     def destroy
-      @crop_log.destroy
+      @crop_log.show = false
+      @crop_log.save!
       head :no_content
     end
 
@@ -38,7 +39,7 @@ module Api::V1
     end
 
     def set_crop_log
-      @crop_log = CropLog.find(params[:id])
+      @crop_log = CropLog.where(show: true).find(params[:id])
     end
   end
 end

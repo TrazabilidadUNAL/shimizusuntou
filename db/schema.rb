@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170325215140) do
+ActiveRecord::Schema.define(version: 20170325231027) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,6 +19,7 @@ ActiveRecord::Schema.define(version: 20170325215140) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "show", default: true
   end
 
   create_table "crop_logs", force: :cascade do |t|
@@ -26,6 +27,7 @@ ActiveRecord::Schema.define(version: 20170325215140) do
     t.bigint "crop_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "show", default: true
     t.index ["crop_id"], name: "index_crop_logs_on_crop_id"
   end
 
@@ -37,6 +39,7 @@ ActiveRecord::Schema.define(version: 20170325215140) do
     t.bigint "producer_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "show", default: true
     t.index ["container_id"], name: "index_crops_on_container_id"
     t.index ["producer_id"], name: "index_crops_on_producer_id"
     t.index ["product_id"], name: "index_crops_on_product_id"
@@ -48,6 +51,7 @@ ActiveRecord::Schema.define(version: 20170325215140) do
     t.float "lon"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "show", default: true
   end
 
   create_table "producers", force: :cascade do |t|
@@ -58,6 +62,7 @@ ActiveRecord::Schema.define(version: 20170325215140) do
     t.string "password"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "show", default: true
     t.index ["place_id"], name: "index_producers_on_place_id"
   end
 
@@ -65,6 +70,7 @@ ActiveRecord::Schema.define(version: 20170325215140) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "show", default: true
   end
 
   add_foreign_key "crop_logs", "crops"
