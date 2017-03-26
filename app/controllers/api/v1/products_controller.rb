@@ -4,7 +4,7 @@ module Api::V1
 
     # GET /products
     def index
-      @products = Product.all
+      @products = Product.where(show: true)
       json_response(@products)
     end
 
@@ -27,7 +27,8 @@ module Api::V1
 
     # DELETE /products/:id
     def destroy
-      @product.destroy
+      @product.show = false
+      @product.save!
       head :no_content
     end
 
@@ -38,7 +39,7 @@ module Api::V1
     end
 
     def set_product
-      @product = Product.find(params[:id])
+      @product = Product.where(show: true).find(params[:id])
     end
   end
 end

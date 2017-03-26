@@ -4,7 +4,7 @@ module Api::V1
 
     # GET /places
     def index
-      @places = Place.all
+      @places = Place.where(show: true)
       json_response(@places)
     end
 
@@ -27,7 +27,8 @@ module Api::V1
 
     # DELETE /places/:id
     def destroy
-      @place.destroy
+      @place.show = false
+      @place.save!
       head :no_content
     end
 
@@ -38,7 +39,7 @@ module Api::V1
     end
 
     def set_place
-      @place = Place.find(params[:id])
+      @place = Place.where(show: true).find(params[:id])
     end
   end
 end

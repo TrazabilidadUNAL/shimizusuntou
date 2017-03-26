@@ -4,7 +4,7 @@ module Api::V1
 
     # GET /containers
     def index
-      @containers = Container.all
+      @containers = Container.where(show: true)
       json_response(@containers)
     end
 
@@ -27,7 +27,8 @@ module Api::V1
 
     # DELETE /containers/:id
     def destroy
-      @container.destroy
+      @container.show = false
+      @container.save!
       head :no_content
     end
 
@@ -38,7 +39,7 @@ module Api::V1
     end
 
     def set_container
-      @container = Container.find(params[:id])
+      @container = Container.where(show: true).find(params[:id])
     end
   end
 end
