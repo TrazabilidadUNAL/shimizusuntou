@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170326203255) do
+ActiveRecord::Schema.define(version: 20170327022522) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -81,9 +81,21 @@ ActiveRecord::Schema.define(version: 20170326203255) do
     t.boolean "show", default: true
   end
 
+  create_table "warehouses", force: :cascade do |t|
+    t.bigint "place_id"
+    t.string "name"
+    t.string "username"
+    t.string "password"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "show", default: true
+    t.index ["place_id"], name: "index_warehouses_on_place_id"
+  end
+
   add_foreign_key "crop_logs", "crops"
   add_foreign_key "crops", "containers"
   add_foreign_key "crops", "producers"
   add_foreign_key "crops", "products"
   add_foreign_key "producers", "places"
+  add_foreign_key "warehouses", "places"
 end
