@@ -45,15 +45,18 @@ RSpec.describe Api::V1::PlacesController, type: :request do
   end
 
   describe 'POST /v1/places' do
-    let(:valid_attributes) { {tag: 'My farm', lat: -74.110642, lon: 4.712504} }
+    let(:tag) { Faker::Address.street_name }
+    let(:lat) { Faker::Address.latitude.to_f }
+    let(:lon) { Faker::Address.longitude.to_f }
+    let(:valid_attributes) { {tag: tag, lat: lat, lon: lon} }
 
     context 'when the request is valid' do
       before { post '/v1/places', params: valid_attributes }
 
       it 'should create a place' do
-        expect(json['tag']).to eq('My farm')
-        expect(json['lat']).to eq(-74.110642)
-        expect(json['lon']).to eq(4.712504)
+        expect(json['tag']).to eq(tag)
+        expect(json['lat']).to eq(lat)
+        expect(json['lon']).to eq(lon)
       end
 
       it 'should return status code 201' do

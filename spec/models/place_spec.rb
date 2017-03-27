@@ -5,4 +5,7 @@ RSpec.describe Place, type: :model do
   it { should validate_presence_of(:tag) }
   it { should validate_presence_of(:lat) }
   it { should validate_presence_of(:lon) }
+
+  # Ensure has many Producers
+  it { should have_many(:producers) }
 end
