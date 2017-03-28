@@ -12,6 +12,7 @@ Rails.application.routes.draw do
       resources :crop_logs
       resources :routes
       resources :warehouses
+      resources :route_logs
     end
   end
 end
