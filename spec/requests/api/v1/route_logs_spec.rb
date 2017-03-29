@@ -50,13 +50,13 @@ RSpec.describe Api::V1::RouteLogsController, type: :request do
     let(:humidity) { Faker::Number.between(0.0, 100.0)  }
     let(:lat) { Faker::Address.latitude.to_f }
     let(:lon) { Faker::Address.longitude.to_f }
-    let(:valid_attributes) { {route: route, temperature: temperature, humidity: humidity, lat: lat, lon: lon} }
+    let(:valid_attributes) { {route_id: route.id, temperature: temperature, humidity: humidity, lat: lat, lon: lon} }
 
     context 'when the request is valid' do
       before { post '/v1/route_logs', params: valid_attributes }
 
-      it 'should create the crop log' do
-        expect(json['route']).to eq(route.id)
+      it 'should create the route log' do
+        expect(json['route_id']).to eq(route.id)
         expect(json['temperature']).to eq(temperature)
         expect(json['humidity']).to eq(humidity)
         expect(json['lat']).to eq(lat)

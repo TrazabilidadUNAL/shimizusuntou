@@ -36,7 +36,7 @@ module Api::V1
     private
 
     def route_log_params
-      params.permit(:route, :temperature, :humidity, :lat, :lon)
+      params.permit(:route_id, :temperature, :humidity, :lat, :lon)
     end
 
     def set_route_log
