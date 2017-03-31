@@ -52,7 +52,6 @@ RSpec.describe Api::V1::PackagesController, type: :request do
     let(:package) { create(:package)}
     let(:quantity) { Faker::Number.positive }
     let(:valid_attributes) { {parent_id: package.id, crop_id: crop.id, route_id: route.id, quantity: quantity} }
-    # let(:valid_attributes) { { crop_id: crop.id, route_id: route.id, quantity: quantity} }
 
     context 'when the request is valid' do
       before { post '/v1/packages', params: valid_attributes }
@@ -77,7 +76,7 @@ RSpec.describe Api::V1::PackagesController, type: :request do
       end
 
       it 'should return a validation failure message' do
-        expect(response.body).to match(/Crop must exist, Parent_id must exist, Route must exist, Quantity can't be blank/)
+        expect(response.body).to match(/Crop must exist, Route must exist, Quantity can't be blank/)
       end
     end
   end
@@ -86,7 +85,7 @@ RSpec.describe Api::V1::PackagesController, type: :request do
     let(:valid_attributes) { { quantity: 46543.04} }
 
     context 'when the record exists' do
-      before { put "/v1/places/#{package_id}", params: valid_attributes }
+      before { put "/v1/packages/#{package_id}", params: valid_attributes }
 
       it 'should update the record' do
         expect(response.body).to be_empty
