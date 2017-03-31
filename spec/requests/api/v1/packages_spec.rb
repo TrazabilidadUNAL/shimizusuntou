@@ -22,13 +22,6 @@ RSpec.describe Api::V1::PackagesController, type: :request do
   describe 'GET /v1/packages/:id' do
     before { get "/v1/packages/#{package_id}" }
 
-    context 'when is the initial package' do
-      it 'should set the parent_id to null' do
-        expect(package_id).to eq(packages.first.id )
-        expect(json['id']).to eq(null)
-      end
-    end
-
     context 'when the record exists' do
       it 'should return the package' do
         expect(json).not_to be_empty
@@ -69,7 +62,6 @@ RSpec.describe Api::V1::PackagesController, type: :request do
         expect(json['crop_id']).to eq(crop.id)
         expect(json['route_id']).to eq(route.id)
         expect(json['quantity']).to eq(quantity)
-
       end
 
       it 'should return status code 201' do

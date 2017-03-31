@@ -26,15 +26,19 @@ class Api::V1::PackagesController < ApplicationController
 
   # DELETE /packages/:id
   def destroy
+    @packages = Package.where(parent_id: @package.id)
+    @packages.each do |pack|
+      pack.destroy
+    end
     @package.show = false
-    @package.save
+    @package.save!
     head :no_content
   end
 
   private
 
   def package_params
-    params.permit(:quantity)
+    params.permit(:parent_id, :crop_id, :route_id, :quantity)
   end
 
   def set_package

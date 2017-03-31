@@ -6,6 +6,7 @@ RSpec.describe Package, type: :model do
 
   # Ensures associations
   it { should belong_to(:parent) }
+  it { should have_many(:packages) }
   it { should belong_to(:crop) }
   it { should belong_to(:route) }
 end
