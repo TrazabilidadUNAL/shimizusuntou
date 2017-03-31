@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170327035406) do
+ActiveRecord::Schema.define(version: 20170329230216) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -43,6 +43,19 @@ ActiveRecord::Schema.define(version: 20170327035406) do
     t.index ["container_id"], name: "index_crops_on_container_id"
     t.index ["producer_id"], name: "index_crops_on_producer_id"
     t.index ["product_id"], name: "index_crops_on_product_id"
+  end
+
+  create_table "packages", force: :cascade do |t|
+    t.bigint "parent_id"
+    t.bigint "crop_id"
+    t.bigint "route_id"
+    t.float "quantity"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "show", default: true
+    t.index ["crop_id"], name: "index_packages_on_crop_id"
+    t.index ["parent_id"], name: "index_packages_on_parent_id"
+    t.index ["route_id"], name: "index_packages_on_route_id"
   end
 
   create_table "places", force: :cascade do |t|
@@ -108,6 +121,8 @@ ActiveRecord::Schema.define(version: 20170327035406) do
   add_foreign_key "crops", "containers"
   add_foreign_key "crops", "producers"
   add_foreign_key "crops", "products"
+  add_foreign_key "packages", "crops"
+  add_foreign_key "packages", "routes"
   add_foreign_key "producers", "places"
   add_foreign_key "route_logs", "routes"
   add_foreign_key "warehouses", "places"

@@ -13,6 +13,7 @@ Rails.application.routes.draw do
       resources :routes
       resources :warehouses
       resources :route_logs
+      resources :packages
     end
   end
 end

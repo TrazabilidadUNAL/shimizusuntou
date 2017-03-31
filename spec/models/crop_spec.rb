@@ -11,4 +11,5 @@ RSpec.describe Crop, type: :model do
 
   # Ensure a Crop has many CropLogs
   it { should have_many(:crop_logs) }
+  it { should have_many(:packages) }
 end
