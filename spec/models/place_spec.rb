@@ -8,4 +8,6 @@ RSpec.describe Place, type: :model do
 
   # Ensure has many Producers
   it { should have_many(:producers) }
+  it { should have_many(:origins) }
+  it { should have_many(:destinations) }
 end

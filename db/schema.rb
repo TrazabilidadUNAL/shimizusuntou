@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170327022522) do
+ActiveRecord::Schema.define(version: 20170329230216) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -45,6 +45,19 @@ ActiveRecord::Schema.define(version: 20170327022522) do
     t.index ["product_id"], name: "index_crops_on_product_id"
   end
 
+  create_table "packages", force: :cascade do |t|
+    t.bigint "parent_id"
+    t.bigint "crop_id"
+    t.bigint "route_id"
+    t.float "quantity"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "show", default: true
+    t.index ["crop_id"], name: "index_packages_on_crop_id"
+    t.index ["parent_id"], name: "index_packages_on_parent_id"
+    t.index ["route_id"], name: "index_packages_on_route_id"
+  end
+
   create_table "places", force: :cascade do |t|
     t.string "tag"
     t.float "lat"
@@ -73,6 +86,18 @@ ActiveRecord::Schema.define(version: 20170327022522) do
     t.boolean "show", default: true
   end
 
+  create_table "route_logs", force: :cascade do |t|
+    t.bigint "route_id"
+    t.float "temperature"
+    t.float "humidity"
+    t.float "lat"
+    t.float "lon"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "show", default: true
+    t.index ["route_id"], name: "index_route_logs_on_route_id"
+  end
+
   create_table "routes", force: :cascade do |t|
     t.integer "origin_id"
     t.integer "destination_id"
@@ -96,6 +121,9 @@ ActiveRecord::Schema.define(version: 20170327022522) do
   add_foreign_key "crops", "containers"
   add_foreign_key "crops", "producers"
   add_foreign_key "crops", "products"
+  add_foreign_key "packages", "crops"
+  add_foreign_key "packages", "routes"
   add_foreign_key "producers", "places"
+  add_foreign_key "route_logs", "routes"
   add_foreign_key "warehouses", "places"
 end

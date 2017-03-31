@@ -53,8 +53,8 @@ RSpec.describe Api::V1::RoutesController, type: :request do
       before { post '/v1/routes', params: valid_attributes }
 
       it 'should create the route' do
-        expect(json['origin']).to eq(origin.id)
-        expect(json['destination']).to eq(destination.id)
+        expect(json['origin_id']).to eq(origin.id)
+        expect(json['destination_id']).to eq(destination.id)
       end
 
       it 'should return status code 201' do
