@@ -19,3 +19,5 @@ Do as indicated to start with the project from scratch:
 Remeber to be carefull with the work you do and in doubt, please report any question to your Scrum Master: [Angel Rendon](mailto:amrendonsa@unal.edu.co).
 
 Both, `master` and `develop` branches have been set as protected to avoid writing in them. Every branch intended to be merged with `develop` has to have its respective [pull request](https://help.github.com/articles/about-pull-requests/).
+
+![alt text](intro.gif "Intro")
