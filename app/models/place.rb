@@ -1,5 +1,5 @@
 class Place < ApplicationRecord
-  has_many :producers
+  belongs_to :localizable, polymorphic: true
   has_many :origins, class_name: 'Route', foreign_key: :origin_id
   has_many :destinations, class_name: 'Route', foreign_key: :destination_id
 

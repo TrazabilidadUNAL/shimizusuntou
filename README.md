@@ -12,10 +12,12 @@ Do as indicated to start with the project from scratch:
 * Once the database definitions have been configured, proceed to create the database via `rake db:create` and `rake db:migrate` where necessary.
 * To populate the database copy and paste this code in your console:
 ```Bash
-rake db:seed:places && rake db:seed:products && rake db:seed:containers && rake db:seed:producers && rake db:seed:warehouses && rake db:seed:routes && rake db:seed:crops && rake db:seed:packages
+./populate
 ```
 * If you want to reset your databases you always can run `rake db:reset` to start with a clean database.
 
 Remeber to be carefull with the work you do and in doubt, please report any question to your Scrum Master: [Angel Rendon](mailto:amrendonsa@unal.edu.co).
 
 Both, `master` and `develop` branches have been set as protected to avoid writing in them. Every branch intended to be merged with `develop` has to have its respective [pull request](https://help.github.com/articles/about-pull-requests/).
+
+![alt text](intro.gif "Intro")

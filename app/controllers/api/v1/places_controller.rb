@@ -1,10 +1,11 @@
 module Api::V1
   class PlacesController < ApplicationController
     before_action :set_place, only: [:show, :update, :destroy]
+    before_action :load_localizable
 
     # GET /places
     def index
-      @places = Place.where(show: true)
+      @places = Place.where(show: true, localizable_id: @localizable.id, localizable_type: @localizable.class.name)
       json_response(@places)
     end
 
@@ -15,7 +16,9 @@ module Api::V1
 
     # POST /places
     def create
-      @place = Place.create!(place_params)
+      @place = Place.new(place_params)
+      @place.localizable = @localizable
+      @place.save!
       json_response(@place, :created)
     end
 
@@ -40,6 +43,11 @@ module Api::V1
 
     def set_place
       @place = Place.where(show: true).find(params[:id])
+    end
+
+    def load_localizable
+      parent, id = request.path.split('/')[2,2]
+      @localizable = parent.singularize.classify.constantize.find(id)
     end
   end
 end

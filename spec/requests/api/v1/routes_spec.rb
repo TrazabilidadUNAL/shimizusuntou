@@ -45,8 +45,8 @@ RSpec.describe Api::V1::RoutesController, type: :request do
   end
 
   describe 'POST /v1/routes' do
-    let(:origin) { create(:place) }
-    let(:destination) { create(:place) }
+    let(:origin) { create(:producer_place) }
+    let(:destination) { create(:warehouse_place) }
     let(:valid_attributes) { {origin_id: origin.id, destination_id: destination.id} }
 
     context 'when the request is valid' do
@@ -75,7 +75,7 @@ RSpec.describe Api::V1::RoutesController, type: :request do
     end
   end
   describe 'PUT /v1/routes/:id' do
-    let(:origin) { create(:place) }
+    let(:origin) { create(:producer_place) }
     let(:valid_attributes) { {origin_id: origin.id} }
 
     context 'when the record exists' do

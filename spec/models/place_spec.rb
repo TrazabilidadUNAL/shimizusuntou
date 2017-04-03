@@ -7,7 +7,7 @@ RSpec.describe Place, type: :model do
   it { should validate_presence_of(:lon) }
 
   # Ensure has many Producers
-  it { should have_many(:producers) }
+  it { should belong_to(:localizable) }
   it { should have_many(:origins) }
   it { should have_many(:destinations) }
 end
