@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170329230216) do
+ActiveRecord::Schema.define(version: 20170402192741) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -46,7 +46,7 @@ ActiveRecord::Schema.define(version: 20170329230216) do
   end
 
   create_table "packages", force: :cascade do |t|
-    t.bigint "parent_id"
+    t.integer "parent_id"
     t.bigint "crop_id"
     t.bigint "route_id"
     t.float "quantity"
@@ -65,10 +65,12 @@ ActiveRecord::Schema.define(version: 20170329230216) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "show", default: true
+    t.string "localizable_type"
+    t.bigint "localizable_id"
+    t.index ["localizable_type", "localizable_id"], name: "index_places_on_localizable_type_and_localizable_id"
   end
 
   create_table "producers", force: :cascade do |t|
-    t.bigint "place_id"
     t.string "first_name"
     t.string "last_name"
     t.string "username"
@@ -76,7 +78,6 @@ ActiveRecord::Schema.define(version: 20170329230216) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "show", default: true
-    t.index ["place_id"], name: "index_producers_on_place_id"
   end
 
   create_table "products", force: :cascade do |t|
@@ -107,14 +108,12 @@ ActiveRecord::Schema.define(version: 20170329230216) do
   end
 
   create_table "warehouses", force: :cascade do |t|
-    t.bigint "place_id"
     t.string "name"
     t.string "username"
     t.string "password"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "show", default: true
-    t.index ["place_id"], name: "index_warehouses_on_place_id"
   end
 
   add_foreign_key "crop_logs", "crops"
@@ -122,8 +121,7 @@ ActiveRecord::Schema.define(version: 20170329230216) do
   add_foreign_key "crops", "producers"
   add_foreign_key "crops", "products"
   add_foreign_key "packages", "crops"
+  add_foreign_key "packages", "packages", column: "parent_id"
   add_foreign_key "packages", "routes"
-  add_foreign_key "producers", "places"
   add_foreign_key "route_logs", "routes"
-  add_foreign_key "warehouses", "places"
 end

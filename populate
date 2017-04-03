@@ -1,0 +1,9 @@
+#!/bin/sh
+rake db:seed:producers
+rake db:seed:warehouses
+rake db:seed:places
+rake db:seed:products
+rake db:seed:containers
+rake db:seed:routes
+rake db:seed:crops
+rake db:seed:packages

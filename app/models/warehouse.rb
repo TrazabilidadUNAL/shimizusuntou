@@ -1,5 +1,5 @@
 class Warehouse < ApplicationRecord
-  belongs_to :place
+  include Localizable
 
   validates_presence_of :name
   validates_presence_of :username

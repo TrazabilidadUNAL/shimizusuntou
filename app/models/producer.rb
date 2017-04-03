@@ -1,5 +1,5 @@
 class Producer < ApplicationRecord
-  belongs_to :place
+  include Localizable
   has_many :crops
 
   validates_presence_of :first_name

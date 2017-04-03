@@ -5,15 +5,8 @@ RSpec.describe Api::V1::ProducersController, type: :request do
   let(:producer_id) { producers.first.id }
 
   describe 'GET /v1/producers' do
-    before { get '/v1/producers' }
-
-    it 'should return producers' do
-      expect(json).not_to be_empty
-      expect(json.size).to eq(10)
-    end
-
-    it 'should return status code 200' do
-      expect(response).to have_http_status(200)
+    it 'should return status code 404' do
+      expect { get '/v1/producers' }.to raise_error(ActionController::RoutingError)
     end
   end
 
@@ -44,13 +37,29 @@ RSpec.describe Api::V1::ProducersController, type: :request do
     end
   end
 
+  describe 'GET /v1/producers/:id/places' do
+    let(:producer) { create(:producer_with_places, places_count: 15) }
+
+    context 'when the producer has places indeed' do
+      before { get "/v1/producers/#{producer.id}/places" }
+
+      it 'should return the places' do
+        expect(json).not_to be_empty
+        expect(json.size).to eq(15)
+      end
+
+      it 'should return status code 200' do
+        expect(response).to have_http_status(200)
+      end
+    end
+  end
+
   describe 'POST /v1/producer' do
-    let(:place) { create(:place) }
     let(:fname) { Faker::Name.first_name }
     let(:lname) { Faker::Name.last_name }
     let(:uname) { Faker::Internet.user_name }
     let(:pswrd) { Faker::Internet.password(8) }
-    let(:valid_attributes) { {place_id: place.id, first_name: fname, last_name: lname, username: uname, password: pswrd} }
+    let(:valid_attributes) { {first_name: fname, last_name: lname, username: uname, password: pswrd} }
 
     context 'when the request is valid' do
       before { post '/v1/producers', params: valid_attributes }
@@ -60,7 +69,6 @@ RSpec.describe Api::V1::ProducersController, type: :request do
         expect(json['last_name']).to eq(lname)
         expect(json['username']).to eq(uname)
         expect(json['password']).to eq(pswrd)
-        expect(json['place_id']).to eq(place.id)
       end
 
       it 'should return status code 201' do
@@ -76,7 +84,27 @@ RSpec.describe Api::V1::ProducersController, type: :request do
       end
 
       it 'should return a validation failure message' do
-        expect(response.body).to match(/Place must exist, First name can't be blank, Last name can't be blank, Username can't be blank, Password can't be blank/)
+        expect(response.body).to match(/First name can't be blank, Last name can't be blank, Username can't be blank, Password can't be blank/)
+      end
+    end
+  end
+
+  describe 'POST /v1/producers/:id/places' do
+    let(:producer) { create(:producer) }
+    let(:tag) { Faker::Address.street_name }
+    let(:lon) { Faker::Address.longitude.to_f }
+    let(:lat) { Faker::Address.latitude.to_f }
+    let(:valid_attributes) { {tag: tag, lat: lat, lon: lon} }
+
+    context 'when the request is valid' do
+      before { post "/v1/producers/#{producer.id}/places", params: valid_attributes }
+
+      it 'should create the place' do
+        expect(json['tag']).to eq(tag)
+        expect(json['lon']).to eq(lon)
+        expect(json['lat']).to eq(lat)
+        expect(json['localizable_type']).to eq("Producer")
+        expect(json['localizable_id']).to eq(producer.id)
       end
     end
   end

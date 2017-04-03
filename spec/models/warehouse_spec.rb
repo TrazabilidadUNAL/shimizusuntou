@@ -7,5 +7,5 @@ RSpec.describe Warehouse, type: :model do
   it { should validate_presence_of(:password) }
 
   # Ensure a Warehouse belongs to a Place
-  it { should belong_to(:place)}
+  it { should have_many(:places) }
 end
