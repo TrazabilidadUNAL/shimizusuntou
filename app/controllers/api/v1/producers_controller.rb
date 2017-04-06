@@ -27,6 +27,11 @@ module Api::V1
 
     # DELETE /producers/:id
     def destroy
+      @places = Place.where(localizable_type: 'Producer', localizable_id: @producer.id)
+      @places.each do |place|
+        place.show = false
+        place.save!
+      end
       @producer.show = false
       @producer.save!
       head :no_content
