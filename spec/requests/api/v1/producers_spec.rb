@@ -37,23 +37,6 @@ RSpec.describe Api::V1::ProducersController, type: :request do
     end
   end
 
-  describe 'GET /v1/producers/:id/places' do
-    let(:producer) { create(:producer_with_places, places_count: 15) }
-
-    context 'when the producer has places indeed' do
-      before { get "/v1/producers/#{producer.id}/places" }
-
-      it 'should return the places' do
-        expect(json).not_to be_empty
-        expect(json.size).to eq(15)
-      end
-
-      it 'should return status code 200' do
-        expect(response).to have_http_status(200)
-      end
-    end
-  end
-
   describe 'POST /v1/producer' do
     let(:fname) { Faker::Name.first_name }
     let(:lname) { Faker::Name.last_name }
@@ -89,31 +72,11 @@ RSpec.describe Api::V1::ProducersController, type: :request do
     end
   end
 
-  describe 'POST /v1/producers/:id/places' do
-    let(:producer) { create(:producer) }
-    let(:tag) { Faker::Address.street_name }
-    let(:lon) { Faker::Address.longitude.to_f }
-    let(:lat) { Faker::Address.latitude.to_f }
-    let(:valid_attributes) { {tag: tag, lat: lat, lon: lon} }
-
-    context 'when the request is valid' do
-      before { post "/v1/producers/#{producer.id}/places", params: valid_attributes }
-
-      it 'should create the place' do
-        expect(json['tag']).to eq(tag)
-        expect(json['lon']).to eq(lon)
-        expect(json['lat']).to eq(lat)
-        expect(json['localizable_type']).to eq("Producer")
-        expect(json['localizable_id']).to eq(producer.id)
-      end
-    end
-  end
-
   describe 'PUT /v1/producers/:id' do
     let(:valid_attributes) { {first_name: "Jane"} }
 
     context 'when the record exists' do
-      before { put "/v1/producers/#{producer_id}", params: valid_attributes }
+      before { put "/v1/producers/#{producer_id}" , params: valid_attributes }
 
       it 'should update the record' do
         expect(response.body).to be_empty
@@ -132,4 +95,83 @@ RSpec.describe Api::V1::ProducersController, type: :request do
       expect(response).to have_http_status(204)
     end
   end
+
+  describe 'GET /v1/producers/:id/places' do
+    let(:producer) { create(:producer_with_places, places_count: 15) }
+
+    context 'when the producer has places indeed' do
+      before { get "/v1/producers/#{producer.id}/places" }
+
+      it 'should return the places' do
+        expect(json).not_to be_empty
+        expect(json.size).to eq(15)
+      end
+
+      it 'should return status code 200' do
+        expect(response).to have_http_status(200)
+      end
+    end
+  end
+
+  describe 'POST /v1/producers/:id/places' do
+    let(:producer) { create(:producer) }
+    let(:tag) { Faker::Address.street_name }
+    let(:lon) { Faker::Address.longitude.to_f }
+    let(:lat) { Faker::Address.latitude.to_f }
+    let(:valid_attributes) { {tag: tag, lat: lat, lon: lon} }
+
+    context 'when the request is valid' do
+      before { post "/v1/producers/#{producer.id}/places", params: valid_attributes }
+
+      it 'should create the place' do
+        expect(json['tag']).to eq(tag)
+        expect(json['lon']).to eq(lon)
+        expect(json['lat']).to eq(lat)
+        expect(json['localizable_type']).to eq("Producer")
+        expect(json['localizable_id']).to eq(producer.id)
+      end
+    end
+
+    context 'when the request is invalid' do
+      before { post "/v1/producers/#{producer.id}/places", params: {tag: "Invalid place"}  }
+
+      it 'should return status code 422' do
+        expect(response).to have_http_status(422)
+      end
+
+      it 'should return a validation failure message' do
+        expect(response.body).to match(/Lat can't be blank, Lon can't be blank/)
+      end
+    end
+  end
+
+  describe 'PUT /v1/producers/:id/places/:place_id' do
+    let(:places) { create_list(:producer_place, 1) }
+    let(:place_id) { places.first.id }
+    let(:valid_attributes) { {tag: "Some tag for place"} }
+
+    context 'when the record exists' do
+      before { put "/v1/producers/#{producer_id}/places/#{place_id}", params: valid_attributes }
+
+      it 'should update the record\'s place' do
+        expect(response.body).to be_empty
+      end
+
+      it 'should return status code 204' do
+        expect(response).to have_http_status(204)
+      end
+    end
+  end
+
+  describe 'DELETE /v1/producers/:id/places/:place_id' do
+    let(:places) { create_list(:producer_place, 2) }
+    let(:place_id) { places.first.id }
+    before { delete "/v1/producers/#{producer_id}/places/#{place_id}" }
+
+    it 'should return status code 204' do
+      expect(response).to have_http_status(204)
+    end
+  end
+
 end
+
