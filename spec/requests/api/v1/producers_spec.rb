@@ -151,7 +151,7 @@ RSpec.describe Api::V1::ProducersController, type: :request do
     let(:valid_attributes) { {tag: "Some tag for place"} }
 
     context 'when the record exists' do
-      before { put "/v1/producers/#{producer_id}", params: valid_attributes }
+      before { put "/v1/producers/#{producer_id}/places/#{place_id}", params: valid_attributes }
 
       it 'should update the record\'s place' do
         expect(response.body).to be_empty

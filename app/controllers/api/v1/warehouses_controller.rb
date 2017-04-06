@@ -28,6 +28,11 @@ module Api::V1
 
     # DELETE /warehouses/:id
     def destroy
+      @places = Place.where(localizable_type: 'Warehouse', localizable_id: @warehouse.id)
+      @places.each do |place|
+        place.show = false
+        place.save!
+      end
       @warehouse.show = false
       @warehouse.save!
       head :no_content
