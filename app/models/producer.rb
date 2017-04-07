@@ -1,8 +1,5 @@
 class Producer < ApplicationRecord
 
-  default_scope {order("producers.first_name ASC")}
-  scope :order_by_first_name, -> (type) {order("producers.first_name #{type}")}
-
   include Localizable
   has_many :crops
 
@@ -11,24 +8,32 @@ class Producer < ApplicationRecord
   validates_presence_of :username
   validates_presence_of :password
 
-  def self.load_producers(page = 1, per_page = 10)
-    includes( :places, crops:[:container, :product, :producer]).paginate(:page => page, :per_page => per_page)
+  default_scope { order("producers.last_name ASC") }
+  scope :order_by_last_name, -> (last) { order("producers.last_name #{last}") }
+
+  def self.load
+    includes(:places, crops: [:container, :product]).where(show: true)
   end
 
-  def self.producers_by_id(id)
-     includes( :places, crops:[:container, :product, :producer] ).find_by_id(id)
+  def self.by_id(id)
+    load.find_by({id: id})
   end
 
-  def self.producers_by_ids(ids, page = 1, per_page = 10)
-    load_producers(page, per_page).where(producers:{id: ids})
+  def self.by_place(place_id)
+    load.where(places: {id: place_id})
   end
 
-  def self.producers_by_not_ids(ids, page = 1, per_page = 10)
-     load_producers(page, per_page).where.not(producers:{id: ids})
+  def destroy
+    destroy_places(self.places)
+    update_attribute(:show, false)
   end
 
-  def self.producers_by_place(page = 1, per_page = 10)
-    load_producers(page, per_page).where(places:{localizable_type: 'Producer', localizable_id: self.id})
+  private
+
+  def destroy_places(places)
+    places.each do |place|
+      place.destroy
+    end
   end
 
 end

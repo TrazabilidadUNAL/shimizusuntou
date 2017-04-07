@@ -2,12 +2,6 @@ module Api::V1
   class ProducersController < ApplicationController
     before_action :set_producer, only: [:show, :update, :destroy]
 
-    # GET /producers
-    def index
-      @producers = Producer.where(show: true)
-      json_response(@producers)
-    end
-
     # GET /producers/:id
     def show
       json_response(@producer)
@@ -27,13 +21,7 @@ module Api::V1
 
     # DELETE /producers/:id
     def destroy
-      @places = Place.where(localizable_type: 'Producer', localizable_id: @producer.id)
-      @places.each do |place|
-        place.show = false
-        place.save!
-      end
-      @producer.show = false
-      @producer.save!
+      @producer.destroy
       head :no_content
     end
 
@@ -44,7 +32,8 @@ module Api::V1
     end
 
     def set_producer
-      @producer = Producer.where(show: true).find(params[:id])
+      @producer = Producer.by_id(params[:id])
+      @producer = Producer.find(params[:id])
     end
   end
 end

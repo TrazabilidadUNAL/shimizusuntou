@@ -7,4 +7,8 @@ class Place < ApplicationRecord
   validates_presence_of :lat
   validates_presence_of :lon
 
+  def destroy
+    update_attribute(:show, false)
+  end
+
 end
