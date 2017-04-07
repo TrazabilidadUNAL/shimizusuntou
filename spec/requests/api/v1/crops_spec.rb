@@ -9,7 +9,7 @@ RSpec.describe Api::V1::CropsController, type: :request do
 
     it 'should return crops' do
       expect(json).not_to be_empty
-      expect(json.size).to eq(10)
+      expect(json['data'].size).to eq(10)
     end
 
     it 'should return status code 200' do
@@ -23,7 +23,7 @@ RSpec.describe Api::V1::CropsController, type: :request do
     context 'when the record exists' do
       it 'should return the crop' do
         expect(json).not_to be_empty
-        expect(json['id']).to eq(crop_id)
+        expect(json['data']['id']).to eq(crop_id)
       end
 
       it 'should return status code 200' do
@@ -55,10 +55,10 @@ RSpec.describe Api::V1::CropsController, type: :request do
       before { post '/v1/crops', params: valid_attributes }
 
       it 'should create the crop' do
-        expect(json['sow_date']).to eq("#{sow_date}T00:00:00.000Z")
-        expect(json['container_id']).to eq(container.id)
-        expect(json['product_id']).to eq(product.id)
-        expect(json['producer_id']).to eq(producer.id)
+        expect(json['data']['sow_date']).to eq("#{sow_date}T00:00:00.000Z")
+        expect(json['data']['container_id']).to eq(container.id)
+        expect(json['data']['product_id']).to eq(product.id)
+        expect(json['data']['producer_id']).to eq(producer.id)
       end
 
       it 'should return status code 201' do

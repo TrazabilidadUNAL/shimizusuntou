@@ -9,7 +9,7 @@ RSpec.describe Api::V1::ContainersController, type: :request do
 
     it 'should return containers' do
       expect(json).not_to be_empty
-      expect(json.size).to eq(10)
+      expect(json['data'].size).to eq(10)
     end
 
     it 'should return status code 200' do
@@ -23,7 +23,7 @@ RSpec.describe Api::V1::ContainersController, type: :request do
     context 'when the record exists' do
       it 'should return the container' do
         expect(json).not_to be_empty
-        expect(json['id']).to eq(container_id)
+        expect(json['data']['id']).to eq(container_id)
       end
 
       it 'should return status code 200' do
@@ -51,7 +51,7 @@ RSpec.describe Api::V1::ContainersController, type: :request do
       before { post '/v1/containers', params: valid_attributes }
 
       it 'should create a container' do
-        expect(json['name']).to eq('Millenium Falcon')
+        expect(json['data']['name']).to eq('Millenium Falcon')
       end
 
       it 'should return status code 201' do

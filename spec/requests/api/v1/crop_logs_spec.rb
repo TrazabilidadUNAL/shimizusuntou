@@ -9,7 +9,7 @@ RSpec.describe Api::V1::CropLogsController, type: :request do
 
     it 'should return crop logs' do
       expect(json).not_to be_empty
-      expect(json.size).to eq(10)
+      expect(json['data'].size).to eq(10)
     end
 
     it 'should return status code 200' do
@@ -23,7 +23,7 @@ RSpec.describe Api::V1::CropLogsController, type: :request do
     context 'when the record exists' do
       it 'should return the crop log' do
         expect(json).not_to be_empty
-        expect(json['id']).to eq(crop_log_id)
+        expect(json['data']['id']).to eq(crop_log_id)
       end
 
       it 'should return status code 200' do
@@ -53,8 +53,7 @@ RSpec.describe Api::V1::CropLogsController, type: :request do
       before { post '/v1/crop_logs', params: valid_attributes }
 
       it 'should create the crop log' do
-        expect(json['description']).to eq(description)
-        expect(json['crop_id']).to eq(crop.id)
+        expect(json['data']['description']).to eq(description)
       end
 
       it 'should return status code 201' do
