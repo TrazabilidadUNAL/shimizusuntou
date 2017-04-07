@@ -1,31 +1,36 @@
 class Warehouse < ApplicationRecord
 
-  default_scope {order("warehouses.name ASC")}
-  scope :order_by_name, -> (type) {order("warehouses.name #{type}")}
-
   include Localizable
 
   validates_presence_of :name
   validates_presence_of :username
   validates_presence_of :password
 
-  def self.load_warehouses(page = 1, per_page = 10)
-    includes( :places ).paginate(:page => page, :per_page => per_page)
+  default_scope {order("warehouses.name ASC")}
+  scope :order_by_name, -> (type) {order("warehouses.name #{type}")}
+
+  def self.load
+    includes(:places).where(show: true)
   end
 
-  def self.warehouse_by_id(id)
-    includes( :places ).find_by_id(id)
+  def self.by_id(id)
+    load.find_by({id: id})
   end
 
-  def self.warehouses_by_ids(ids, page = 1, per_page = 10)
-    load_warehouses(page, per_page).where(warehouses:{id: ids})
+  def self.by_place(place_id)
+    load.where(places: {id: place_id})
   end
 
-  def self.warehouses_by_not_ids(ids, page = 1, per_page = 10)
-    load_warehouses(page, per_page).where.not(warehouses:{id: ids})
+  def destroy
+    destroy_places(self.places)
+    update_attribute(:show, false)
   end
 
-  def self.warehouses_by_place(place, page = 1, per_page = 10)
-    load_warehouses(page, per_page).where(places:{localizable_type: 'Warehouse', localizable_id: self.id})
+  private
+
+  def destroy_places(places)
+    places.each do |place|
+      place.destroy
+    end
   end
 end
