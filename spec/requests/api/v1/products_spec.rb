@@ -9,7 +9,7 @@ RSpec.describe Api::V1::ProductsController, type: :request do
 
     it 'returns products' do
       expect(json).not_to be_empty
-      expect(json.size).to eq(10)
+      expect(json['data'].size).to eq(10)
     end
 
     it 'returns status code 200' do
@@ -23,7 +23,7 @@ RSpec.describe Api::V1::ProductsController, type: :request do
     context 'when the record exists' do
       it 'returns the product' do
         expect(json).not_to be_empty
-        expect(json['id']).to eq(product_id)
+        expect(json['data']['id']).to eq(product_id)
       end
 
       it 'returns status code 200' do
@@ -51,7 +51,7 @@ RSpec.describe Api::V1::ProductsController, type: :request do
       before { post '/v1/products', params: valid_attributes }
 
       it 'creates a product' do
-        expect(json['name']).to eq('Guinness')
+        expect(json['data']['name']).to eq('Guinness')
       end
 
       it 'returns status code 201' do

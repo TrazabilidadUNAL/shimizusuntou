@@ -10,7 +10,7 @@ RSpec.describe Api::V1::PackagesController, type: :request do
 
     it 'should return packages' do
       expect(json).not_to be_empty
-      expect(json.size).to eq(10)
+      expect(json['data'].size).to eq(10)
     end
 
     it 'should return status code 200' do
@@ -25,7 +25,7 @@ RSpec.describe Api::V1::PackagesController, type: :request do
     context 'when the record exists' do
       it 'should return the package' do
         expect(json).not_to be_empty
-        expect(json['id']).to eq(package_id)
+        expect(json['data']['id']).to eq(package_id)
       end
 
       it 'should return status code 200' do
@@ -57,10 +57,10 @@ RSpec.describe Api::V1::PackagesController, type: :request do
       before { post '/v1/packages', params: valid_attributes }
 
       it 'should create the package' do
-        expect(json['parent_id']).to eq(package.id)
-        expect(json['crop_id']).to eq(crop.id)
-        expect(json['route_id']).to eq(route.id)
-        expect(json['quantity']).to eq(quantity)
+        expect(json['data']['parent_id']).to eq(package.id)
+        expect(json['data']['crop_id']).to eq(crop.id)
+        expect(json['data']['route_id']).to eq(route.id)
+        expect(json['data']['quantity']).to eq(quantity)
       end
 
       it 'should return status code 201' do

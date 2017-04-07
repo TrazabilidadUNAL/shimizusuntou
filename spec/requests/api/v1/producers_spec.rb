@@ -16,7 +16,7 @@ RSpec.describe Api::V1::ProducersController, type: :request do
     context 'when the record exists' do
       it 'should return the producer' do
         expect(json).not_to be_empty
-        expect(json['id']).to eq(producer_id)
+        expect(json['data']['id']).to eq(producer_id)
       end
 
       it 'should return status code 200' do
@@ -48,10 +48,9 @@ RSpec.describe Api::V1::ProducersController, type: :request do
       before { post '/v1/producers', params: valid_attributes }
 
       it 'should create the producer' do
-        expect(json['first_name']).to eq(fname)
-        expect(json['last_name']).to eq(lname)
-        expect(json['username']).to eq(uname)
-        expect(json['password']).to eq(pswrd)
+        expect(json['data']['first_name']).to eq(fname)
+        expect(json['data']['last_name']).to eq(lname)
+        expect(json['data']['username']).to eq(uname)
       end
 
       it 'should return status code 201' do
@@ -104,7 +103,7 @@ RSpec.describe Api::V1::ProducersController, type: :request do
 
       it 'should return the places' do
         expect(json).not_to be_empty
-        expect(json.size).to eq(15)
+        expect(json['data'].size).to eq(15)
       end
 
       it 'should return status code 200' do
@@ -124,11 +123,9 @@ RSpec.describe Api::V1::ProducersController, type: :request do
       before { post "/v1/producers/#{producer.id}/places", params: valid_attributes }
 
       it 'should create the place' do
-        expect(json['tag']).to eq(tag)
-        expect(json['lon']).to eq(lon)
-        expect(json['lat']).to eq(lat)
-        expect(json['localizable_type']).to eq("Producer")
-        expect(json['localizable_id']).to eq(producer.id)
+        expect(json['data']['tag']).to eq(tag)
+        expect(json['data']['lon']).to eq(lon)
+        expect(json['data']['lat']).to eq(lat)
       end
     end
 
