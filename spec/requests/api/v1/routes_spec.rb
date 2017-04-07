@@ -9,7 +9,7 @@ RSpec.describe Api::V1::RoutesController, type: :request do
 
     it 'should return routes' do
       expect(json).not_to be_empty
-      expect(json.size).to eq(10)
+      expect(json['data'].size).to eq(10)
     end
 
     it 'should return status code 200' do
@@ -23,7 +23,7 @@ RSpec.describe Api::V1::RoutesController, type: :request do
     context 'when the record exists' do
       it 'should return the route' do
         expect(json).not_to be_empty
-        expect(json['id']).to eq(route_id)
+        expect(json['data']['id']).to eq(route_id)
       end
 
       it 'should return status code 200' do
@@ -53,8 +53,8 @@ RSpec.describe Api::V1::RoutesController, type: :request do
       before { post '/v1/routes', params: valid_attributes }
 
       it 'should create the route' do
-        expect(json['origin_id']).to eq(origin.id)
-        expect(json['destination_id']).to eq(destination.id)
+        expect(json['data']['origin_id']).to eq(origin.id)
+        expect(json['data']['destination_id']).to eq(destination.id)
       end
 
       it 'should return status code 201' do

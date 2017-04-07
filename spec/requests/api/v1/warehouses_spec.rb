@@ -16,7 +16,7 @@ RSpec.describe Api::V1::WarehousesController, type: :request do
     context 'when the record exists' do
       it 'should return the warehouse' do
         expect(json).not_to be_empty
-        expect(json['id']).to eq(warehouse_id)
+        expect(json['data']['id']).to eq(warehouse_id)
       end
 
       it 'should return status code 200' do
@@ -37,23 +37,6 @@ RSpec.describe Api::V1::WarehousesController, type: :request do
     end
   end
 
-  describe 'GET /v1/warehouses/:id/places' do
-    let(:warehouse) { create(:warehouse_with_place, places_count: 15) }
-
-    context 'when the warehouse has places indeed' do
-      before { get "/v1/warehouses/#{warehouse.id}/places" }
-
-      it 'should return the places' do
-        expect(json).not_to be_empty
-        expect(json.size).to eq(15)
-      end
-
-      it 'should return status code 200' do
-        expect(response).to have_http_status(200)
-      end
-    end
-  end
-
   describe 'POST /v1/warehouse' do
     let(:wname) { Faker::Name.name }
     let(:uname) { Faker::Internet.user_name }
@@ -64,9 +47,8 @@ RSpec.describe Api::V1::WarehousesController, type: :request do
       before { post '/v1/warehouses', params: valid_attributes }
 
       it 'should create the warehouse' do
-        expect(json['name']).to eq(wname)
-        expect(json['username']).to eq(uname)
-        expect(json['password']).to eq(pswrd)
+        expect(json['data']['name']).to eq(wname)
+        expect(json['data']['username']).to eq(uname)
       end
 
       it 'should return status code 201' do
@@ -83,25 +65,6 @@ RSpec.describe Api::V1::WarehousesController, type: :request do
 
       it 'should return a validation failure message' do
         expect(response.body).to match(/Username can't be blank, Password can't be blank/)
-      end
-    end
-  end
-
-  describe 'POST /v1/warehouses/:id/places' do
-    let(:warehouse) { create(:warehouse) }
-    let(:tag) { Faker::Address.street_name }
-    let(:lon) { Faker::Address.longitude.to_f }
-    let(:lat) { Faker::Address.latitude.to_f }
-    let(:valid_attributes) { {tag: tag, lat: lat, lon: lon} }
-
-    context 'when the request is valid' do
-      before { post "/v1/warehouses/#{warehouse.id}/places", params: valid_attributes }
-      it 'should create the place' do
-        expect(json['tag']).to eq(tag)
-        expect(json['lon']).to eq(lon)
-        expect(json['lat']).to eq(lat)
-        expect(json['localizable_type']).to eq("Warehouse")
-        expect(json['localizable_id']).to eq(warehouse.id)
       end
     end
   end
@@ -130,5 +93,79 @@ RSpec.describe Api::V1::WarehousesController, type: :request do
     end
   end
 
+  describe 'GET /v1/warehouses/:id/places' do
+    let(:warehouse) { create(:warehouse_with_place, places_count: 15) }
+
+    context 'when the warehouse has places indeed' do
+      before { get "/v1/warehouses/#{warehouse.id}/places" }
+
+      it 'should return the places' do
+        expect(json).not_to be_empty
+        expect(json['data'].size).to eq(15)
+      end
+
+      it 'should return status code 200' do
+        expect(response).to have_http_status(200)
+      end
+    end
+  end
+
+  describe 'POST /v1/warehouses/:id/places' do
+    let(:warehouse) { create(:warehouse) }
+    let(:tag) { Faker::Address.street_name }
+    let(:lon) { Faker::Address.longitude.to_f }
+    let(:lat) { Faker::Address.latitude.to_f }
+    let(:valid_attributes) { {tag: tag, lat: lat, lon: lon} }
+
+    context 'when the request is valid' do
+      before { post "/v1/warehouses/#{warehouse.id}/places", params: valid_attributes }
+      it 'should create the place' do
+        expect(json['data']['tag']).to eq(tag)
+        expect(json['data']['lon']).to eq(lon)
+        expect(json['data']['lat']).to eq(lat)
+      end
+    end
+
+    context 'when the request is invalid' do
+      before { post "/v1/warehouses/#{warehouse.id}/places", params: {tag: "Invalid place"}  }
+
+      it 'should return status code 422' do
+        expect(response).to have_http_status(422)
+      end
+
+      it 'should return a validation failure message' do
+        expect(response.body).to match(/Lat can't be blank, Lon can't be blank/)
+      end
+    end
+
+  end
+
+  describe 'PUT /v1/warehouses/:id/places/:place_id' do
+    let(:places) { create_list(:warehouse_place, 1) }
+    let(:place_id) { places.first.id }
+    let(:valid_attributes) { {tag: "Some tag for place"} }
+
+    context 'when the record exists' do
+      before { put "/v1/warehouses/#{warehouse_id}/places/#{place_id}", params: valid_attributes }
+
+      it 'should update the record\'s place' do
+        expect(response.body).to be_empty
+      end
+
+      it 'should return status code 204' do
+        expect(response).to have_http_status(204)
+      end
+    end
+  end
+
+  describe 'DELETE /v1/warehouses/:id/places/:place_id' do
+    let(:places) { create_list(:warehouse_place, 2) }
+    let(:place_id) { places.first.id }
+    before { delete "/v1/warehouses/#{warehouse_id}/places/#{place_id}" }
+
+    it 'should return status code 204' do
+      expect(response).to have_http_status(204)
+    end
+  end
 
 end

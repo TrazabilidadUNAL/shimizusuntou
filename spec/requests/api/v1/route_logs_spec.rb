@@ -9,7 +9,7 @@ RSpec.describe Api::V1::RouteLogsController, type: :request do
 
     it 'should return route logs' do
       expect(json).not_to be_empty
-      expect(json.size).to eq(10)
+      expect(json['data'].size).to eq(10)
     end
 
     it 'should return status code 200' do
@@ -23,7 +23,7 @@ RSpec.describe Api::V1::RouteLogsController, type: :request do
     context 'when the record exists' do
       it 'should return the route log' do
         expect(json).not_to be_empty
-        expect(json['id']).to eq(route_log_id)
+        expect(json['data']['id']).to eq(route_log_id)
       end
 
       it 'should return status code 200' do
@@ -56,11 +56,10 @@ RSpec.describe Api::V1::RouteLogsController, type: :request do
       before { post '/v1/route_logs', params: valid_attributes }
 
       it 'should create the route log' do
-        expect(json['route_id']).to eq(route.id)
-        expect(json['temperature']).to eq(temperature)
-        expect(json['humidity']).to eq(humidity)
-        expect(json['lat']).to eq(lat)
-        expect(json['lon']).to eq(lon)
+        expect(json['data']['temperature']).to eq(temperature)
+        expect(json['data']['humidity']).to eq(humidity)
+        expect(json['data']['lat']).to eq(lat)
+        expect(json['data']['lon']).to eq(lon)
       end
 
       it 'should return status code 201' do
