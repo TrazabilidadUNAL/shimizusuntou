@@ -24,16 +24,8 @@ class Producer < ApplicationRecord
   end
 
   def destroy
-    destroy_places(self.places)
+    self.places.update_all(show: false)
     update_attribute(:show, false)
-  end
-
-  private
-
-  def destroy_places(places)
-    places.each do |place|
-      place.destroy
-    end
   end
 
 end
