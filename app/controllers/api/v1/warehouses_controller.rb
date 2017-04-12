@@ -3,12 +3,6 @@ module Api::V1
 
     before_action :set_warehouse, only: [:show, :update, :destroy]
 
-    # GET /producers
-    def index
-      @warehouses = Warehouse.where(show: true)
-      json_response(@warehouses)
-    end
-
     # GET /warehouses/:id
     def show
       json_response(@warehouse)
@@ -28,13 +22,7 @@ module Api::V1
 
     # DELETE /warehouses/:id
     def destroy
-      @places = Place.where(localizable_type: 'Warehouse', localizable_id: @warehouse.id)
-      @places.each do |place|
-        place.show = false
-        place.save!
-      end
-      @warehouse.show = false
-      @warehouse.save!
+      @warehouse.destroy
       head :no_content
     end
 

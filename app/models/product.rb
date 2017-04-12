@@ -20,4 +20,8 @@ class Product < ApplicationRecord
   def self.by_crop(crop_id, page = 1, per_page = 10)
     load(page, per_page).where(crops:{id: crop_id})
   end
+
+  def destroy
+    update_attribute(:show, false)
+  end
 end

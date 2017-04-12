@@ -9,6 +9,7 @@ class Place < ApplicationRecord
 
   def destroy
     update_attribute(:show, false)
+    # update_all(ids)
   end
 
   default_scope {order("places.tag ASC")}

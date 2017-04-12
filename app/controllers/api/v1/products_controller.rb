@@ -27,8 +27,7 @@ module Api::V1
 
     # DELETE /products/:id
     def destroy
-      @product.show = false
-      @product.save!
+      @product.destroy
       head :no_content
     end
 
