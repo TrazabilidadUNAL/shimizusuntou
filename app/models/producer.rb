@@ -28,4 +28,16 @@ class Producer < ApplicationRecord
     update_attribute(:show, false)
   end
 
+  def products
+    @products = Array.new([])
+    @crops = self.crops
+    @crops.each do |crop|
+      unless @products.include?(crop.product)
+        pp crop.id
+        @products.push(crop.product)
+      end
+    end
+    Product.by_ids(@products)
+  end
+
 end

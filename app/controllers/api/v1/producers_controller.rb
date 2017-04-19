@@ -32,7 +32,6 @@ module Api::V1
     end
 
     def set_producer
-      @producer = Producer.by_id(params[:id])
       @producer = Producer.find(params[:id])
     end
   end
