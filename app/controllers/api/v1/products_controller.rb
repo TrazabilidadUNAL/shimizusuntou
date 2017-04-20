@@ -82,7 +82,7 @@ module Api::V1
       if @product
         json_response(@product)
       else
-        head :not_found
+        json_response({:message => "Couldn't find Product with id #{params[:id]}"}, :not_found)
       end
     end
 
