@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::API
   include ActionController::Serialization
-  include Response
-  include ExceptionHandler
+  include Concerns::Response
+  include Concerns::ExceptionHandler
 end
