@@ -29,28 +29,46 @@
     </a>
     <span class='divider'>/</span>
   </li>
-  <li class='active'>index</li>
+  <li class='active'>show</li>
   
 
 </ul>
 
   <div class='page-header'>
     <h1>
-      GET /v1/products
+      GET /v1/products/:id
       <br>
-      <small>Shows all products</small>
+      <small>Shows an specific product</small>
     </h1>
   </div>
 
 <div>
 
   
-<p>Retrieves the whole list of products in the system. If there are not enough
-records an empty array is returned.</p>
+<p>Retrieves a single product in the system</p>
 
 
   <h2>Supported Formats</h2>
   json
+
+  <h2>Errors</h2>
+  
+<table class="table table-bordered">
+	<thead>
+		<tr>
+			<th>Code</th>
+			<th>Description</th>
+			
+		</tr>
+	</thead>
+
+	<tbody>
+			<tr>
+				<td><span class="label label-inverse"> 404 </span></td>
+				<td>Product with that id hasn&#39;t been found</td>
+			</tr>
+	</tbody>
+</table>
 
 
 
@@ -58,29 +76,19 @@ records an empty array is returned.</p>
     <pre class="prettyprint">HTTP/1.1 200 OK
 Cache-Control: max-age=0, private, must-revalidate
 Content-Type: application/json; charset=utf-8
-ETag: W/&quot;6a0c7e3f2e976bf46026ce615c506473&quot;
+ETag: W/&quot;99d67fb04c806e1d4ef91a088c09164c&quot;
 Transfer-Encoding: chunked
 Vary: Origin
 X-Content-Type-Options: nosniff
 X-Frame-Options: SAMEORIGIN
-X-Request-Id: 3d8a06b0-e358-4d84-9a79-84e0ec580377
-X-Runtime: 0.145334
+X-Request-Id: e1011866-036f-4ba5-8a33-ce71c845b645
+X-Runtime: 0.004554
 X-XSS-Protection: 1; mode=block
 {
-    &quot;data&quot;: [
-        {
-            &quot;id&quot;: 196, 
-            &quot;name&quot;: &quot;90 Minute IPA&quot;
-        }, 
-        {
-            &quot;id&quot;: 382, 
-            &quot;name&quot;: &quot;Westmalle Trappist Tripel&quot;
-        }, 
-        {
-            &quot;id&quot;: 472, 
-            &quot;name&quot;: &quot;Yeti Imperial Stout&quot;
-        }
-    ]
+    &quot;data&quot;: {
+        &quot;id&quot;: 13, 
+        &quot;name&quot;: &quot;Oak Aged Yeti Imperial Stout&quot;
+    }
 }
 </pre>
 
