@@ -119,7 +119,7 @@ module Api::V1
     api! 'Updates an existing product'
     description 'Updates an existing product.'
     param_group :product
-    error :code => 404, :desc => "Product with that id hasn't been found."
+    error :code => 404, :desc => "Product with that id hasn't been found"
     example <<-EOM
     HTTP/1.1 204 No Content
     Cache-Control: no-cache
@@ -140,7 +140,6 @@ module Api::V1
       end
     end
 
-    # DELETE /products/:id
     api! 'Deletes a product in the system'
     description 'Deletes a product in the system given an id.'
     error :code => 404, :desc => "Product with that id hasn't been found."
