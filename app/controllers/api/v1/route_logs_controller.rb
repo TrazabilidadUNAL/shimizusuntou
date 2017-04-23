@@ -11,7 +11,11 @@ module Api::V1
 
     # GET /route_logs/:id
     def show
-      json_response(@route_log)
+      if @route_log
+        json_response(@route_log)
+      else
+        json_response({:message => "Couldn't find RouteLog with id #{params[:id]}"}, :not_found)
+      end
     end
 
     # POST /route_logs
@@ -40,7 +44,7 @@ module Api::V1
     end
 
     def set_route_log
-      @route_log = RouteLog.where(show: true).find(params[:id])
+      @route_log = RouteLog.find(params[:id])
     end
   end
 end

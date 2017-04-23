@@ -171,7 +171,7 @@ module Api::V1
     end
 
     def set_product
-      @product = Product.exists?(params[:id]) ? Product.where(show: true).find(params[:id]) : nil
+      @product = Product.find(params[:id])
     end
   end
 end
