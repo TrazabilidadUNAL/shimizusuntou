@@ -9,7 +9,11 @@ class Api::V1::PackagesController < ApplicationController
 
   # GET /packages/:id
   def show
-    json_response(@package)
+    if @package
+      json_response(@package)
+    else
+      json_response({:message => "Couldn't find Package with id #{params[:id]}"}, :not_found)
+    end
   end
 
   # POST /packages
@@ -42,6 +46,6 @@ class Api::V1::PackagesController < ApplicationController
   end
 
   def set_package
-    @package = Package.where(show: true).find(params[:id])
+    @package = Package.find(params[:id])
   end
 end

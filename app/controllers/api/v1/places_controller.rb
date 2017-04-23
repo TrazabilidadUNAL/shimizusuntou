@@ -85,7 +85,7 @@ module Api::V1
       if @place
         json_response(@place)
       else
-        json_response({:message => "Couldn't find a place with id #{params[:id]}"}, :not_found)
+        json_response({:message => "Couldn't find a Place with id #{params[:id]}"}, :not_found)
       end
     end
 
@@ -177,7 +177,7 @@ module Api::V1
     end
 
     def set_place
-      @place = Place.exists?(params[:id]) ? Place.where(show: true).find(params[:id]) : nil
+      @place = Place.find(params[:id])
     end
 
     def load_localizable

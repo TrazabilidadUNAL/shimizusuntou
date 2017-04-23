@@ -10,7 +10,11 @@ module Api::V1
 
     # GET /crops/:id
     def show
-      json_response(@crop_log)
+      if @crop_log
+        json_response(@crop_log)
+      else
+        json_response({:message => "Couldn't find CropLog with id #{params[:id]}"}, :not_found)
+      end
     end
 
     # POST /crops
@@ -39,7 +43,7 @@ module Api::V1
     end
 
     def set_crop_log
-      @crop_log = CropLog.where(show: true).find(params[:id])
+      @crop_log = CropLog.find(params[:id])
     end
   end
 end

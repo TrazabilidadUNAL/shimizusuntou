@@ -133,7 +133,7 @@ module Api::V1
     end
 
     def set_producer
-      @producer = Producer.exists?(params[:id]) ? Producer.find(params[:id]) : nil
+      @producer = Producer.find(params[:id])
     end
   end
 end

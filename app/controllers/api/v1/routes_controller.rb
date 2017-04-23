@@ -10,7 +10,11 @@ module Api::V1
 
     # GET /routes/:id
     def show
-      json_response(@route)
+      if @route
+        json_response(@route)
+      else
+        json_response({:message => "Couldn't find Route with id #{params[:id]}"}, :not_found)
+      end
     end
 
     # POST /routes
@@ -39,7 +43,7 @@ module Api::V1
     end
 
     def set_route
-      @route = Route.where(show: true).find(params[:id])
+      @route = Route.find(params[:id])
     end
   end
 end
