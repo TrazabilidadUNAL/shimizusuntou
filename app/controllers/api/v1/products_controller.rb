@@ -33,12 +33,6 @@ module Api::V1
       head :no_content
     end
 
-    def load_parent
-      parent, id = request.path.split('/')[2, 2]
-      @parentable = parent.singularize.classify.constantize.find(id)
-      json_response(@parentable.products)
-    end
-
     private
 
     def product_params
@@ -48,5 +42,14 @@ module Api::V1
     def set_product
       @product = Product.where(show: true).find(params[:id])
     end
+
+    def load_parent
+      if request.path.split('/')[2] != 'products'
+        parent, id = request.path.split('/')[2, 2]
+        @parentable = parent.singularize.classify.constantize.find(id)
+        json_response(@parentable.products)
+      end
+    end
+
   end
 end

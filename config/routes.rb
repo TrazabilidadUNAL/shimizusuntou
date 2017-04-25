@@ -9,7 +9,7 @@ Rails.application.routes.draw do
       end
 
       concern :parentable do
-       resources :products, only: [:index]
+        resources :products, only: [:index]
       end
 
       resources :producers, except: [:index], concerns: [:localizable, :parentable]

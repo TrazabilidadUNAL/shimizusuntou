@@ -1,6 +1,6 @@
 module Api::V1
   class ProducersController < ApplicationController
-    before_action :set_producer, only: [:show, :update, :destroy, :products]
+    before_action :set_producer, only: [:show, :update, :destroy]
 
     # GET /producers/:id
     def show
