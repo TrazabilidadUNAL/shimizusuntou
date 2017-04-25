@@ -33,7 +33,6 @@ class Producer < ApplicationRecord
     @crops = self.crops
     @crops.each do |crop|
       unless @products.include?(crop.product)
-        pp crop.id
         @products.push(crop.product)
       end
     end

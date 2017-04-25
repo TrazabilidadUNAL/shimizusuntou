@@ -1,6 +1,7 @@
 module Api::V1
   class ProductsController < ApplicationController
     before_action :set_product, only: [:show, :update, :destroy]
+    before_action :load_parent
 
     # GET /products
     def index
@@ -30,6 +31,12 @@ module Api::V1
       @product.show = false
       @product.save!
       head :no_content
+    end
+
+    def load_parent
+      parent, id = request.path.split('/')[2, 2]
+      @parentable = parent.singularize.classify.constantize.find(id)
+      json_response(@parentable.products)
     end
 
     private
