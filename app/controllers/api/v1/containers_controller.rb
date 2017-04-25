@@ -10,7 +10,11 @@ module Api::V1
 
     # GET /containers/:id
     def show
-      json_response(@container)
+      if @container
+        json_response(@container)
+      else
+        json_response({:message => "Couldn't find Container with id #{params[:id]}"}, :not_found)
+      end
     end
 
     # POST /containers
@@ -39,7 +43,7 @@ module Api::V1
     end
 
     def set_container
-      @container = Container.where(show: true).find(params[:id])
+      @container = Container.find(params[:id])
     end
   end
 end

@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>API documentation</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link type='text/css' rel='stylesheet' href='apidoc/stylesheets/bundled/bootstrap.min.css'/>
+<link type='text/css' rel='stylesheet' href='apidoc/stylesheets/bundled/prettify.css'/>
+<link type='text/css' rel='stylesheet' href='apidoc/stylesheets/bundled/bootstrap-responsive.min.css'/>
+  <link type='text/css' rel='stylesheet' href='apidoc/stylesheets/application.css'/>
+  <!-- IE6-8 support of HTML5 elements -->
+  <!--[if lt IE 9]>
+    <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+</head>
+<body>
+  <div class="container-fluid">
+    <div class="row-fluid">
+      <div id='container'>
+          <h4><a href='#products'>Products</a></h4>
+  <ul>
+      <li><a href='#products-index'>index</a></li>
+      <li><a href='#products-show'>show</a></li>
+      <li><a href='#products-create'>create</a></li>
+      <li><a href='#products-update'>update</a></li>
+      <li><a href='#products-destroy'>destroy</a></li>
+  </ul>
+
+
+
+<div>
+<p>Another API description</p>
+</div>
+
+<hr>
+
+
+  <ul class='breadcrumb'  id='products'>
+    <li><a href='#'>Shimizusuntou</a><span class='divider'>/</span></li>
+    <li class='active'>Products</li>
+  </ul>
+
+  <div class='page-header'>
+    <h1>
+      <a href='#products'>Products</a><br>
+      <small></small>
+    </h1>
+  </div>
+
+    <div>
+<p>Products available in the system.</p>
+
+<p>These Products are essential to set a Crop.</p>
+
+<p>The Products also relates to the Producers and Warehouses and can give an
+statistic of what and how they are dealing with them.</p>
+</div>
+
+  <div class='accordion' id='accordion'>
+
+      <hr>
+
+      <ul class='breadcrumb' id='products-index'>
+        <li>
+          <a href='#'>Shimizusuntou</a>
+          <span class='divider'>/</span>
+        </li>
+        <li>
+          <a href='#products'>Products</a>
+          <span class='divider'>/</span>
+        </li>
+        <li class='active'>index</li>
+      </ul>
+
+      <div>
+          <h3>
+            <a href='#products-index'>
+              GET /v1/products
+            </a><br>
+            <small>Shows all products</small>
+          </h3>
+      </div>
+
+      <div>
+        
+<p>Retrieves the whole list of products in the system. If there are not enough
+records an empty array is returned.</p>
+
+          <h2>Examples</h2>
+            <pre>HTTP/1.1 200 OK
+Cache-Control: max-age=0, private, must-revalidate
+Content-Type: application/json; charset=utf-8
+ETag: W/&quot;6a0c7e3f2e976bf46026ce615c506473&quot;
+Transfer-Encoding: chunked
+Vary: Origin
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+X-Request-Id: 3d8a06b0-e358-4d84-9a79-84e0ec580377
+X-Runtime: 0.145334
+X-XSS-Protection: 1; mode=block
+{
+    &quot;data&quot;: [
+        {
+            &quot;id&quot;: 196, 
+            &quot;name&quot;: &quot;90 Minute IPA&quot;
+        }, 
+        {
+            &quot;id&quot;: 382, 
+            &quot;name&quot;: &quot;Westmalle Trappist Tripel&quot;
+        }, 
+        {
+            &quot;id&quot;: 472, 
+            &quot;name&quot;: &quot;Yeti Imperial Stout&quot;
+        }
+    ]
+}
+</pre>
+
+
+      </div>
+      <hr>
+
+      <ul class='breadcrumb' id='products-show'>
+        <li>
+          <a href='#'>Shimizusuntou</a>
+          <span class='divider'>/</span>
+        </li>
+        <li>
+          <a href='#products'>Products</a>
+          <span class='divider'>/</span>
+        </li>
+        <li class='active'>show</li>
+      </ul>
+
+      <div>
+          <h3>
+            <a href='#products-show'>
+              GET /v1/products/:id
+            </a><br>
+            <small>Shows an specific product</small>
+          </h3>
+      </div>
+
+      <div>
+        
+<p>Retrieves a single product in the system</p>
+
+          <h2>Examples</h2>
+            <pre>HTTP/1.1 200 OK
+Cache-Control: max-age=0, private, must-revalidate
+Content-Type: application/json; charset=utf-8
+ETag: W/&quot;99d67fb04c806e1d4ef91a088c09164c&quot;
+Transfer-Encoding: chunked
+Vary: Origin
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+X-Request-Id: e1011866-036f-4ba5-8a33-ce71c845b645
+X-Runtime: 0.004554
+X-XSS-Protection: 1; mode=block
+{
+    &quot;data&quot;: {
+        &quot;id&quot;: 13, 
+        &quot;name&quot;: &quot;Oak Aged Yeti Imperial Stout&quot;
+    }
+}
+</pre>
+
+          <h2>Errors</h2>
+          
+<table class="table table-bordered">
+	<thead>
+		<tr>
+			<th>Code</th>
+			<th>Description</th>
+			
+		</tr>
+	</thead>
+
+	<tbody>
+			<tr>
+				<td><span class="label label-inverse"> 404 </span></td>
+				<td>Product with that id hasn&#39;t been found</td>
+			</tr>
+	</tbody>
+</table>
+
+
+      </div>
+      <hr>
+
+      <ul class='breadcrumb' id='products-create'>
+        <li>
+          <a href='#'>Shimizusuntou</a>
+          <span class='divider'>/</span>
+        </li>
+        <li>
+          <a href='#products'>Products</a>
+          <span class='divider'>/</span>
+        </li>
+        <li class='active'>create</li>
+      </ul>
+
+      <div>
+          <h3>
+            <a href='#products-create'>
+              POST /v1/products
+            </a><br>
+            <small>Creates a new product</small>
+          </h3>
+      </div>
+
+      <div>
+        
+<p>Creates a new product having its name as a parameter.</p>
+
+          <h2>Examples</h2>
+            <pre>HTTP/1.1 201 Created
+Cache-Control: max-age=0, private, must-revalidate
+Content-Type: application/json; charset=utf-8
+ETag: W/&quot;ba27fb10b09efca048771a88c65d699e&quot;
+Transfer-Encoding: chunked
+Vary: Origin
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+X-Request-Id: 12ff79b8-0a53-4ff0-8222-5ac162087d37
+X-Runtime: 0.035245
+X-XSS-Protection: 1; mode=block
+
+{
+    &quot;data&quot;: {
+        &quot;id&quot;: 501, 
+        &quot;name&quot;: &quot;Indian Pale Ale&quot;
+    }
+}
+</pre>
+
+          <h2>Errors</h2>
+          
+<table class="table table-bordered">
+	<thead>
+		<tr>
+			<th>Code</th>
+			<th>Description</th>
+			<th>Metadata</th>
+		</tr>
+	</thead>
+
+	<tbody>
+			<tr>
+				<td><span class="label label-important"> 422 </span></td>
+				<td>Unprocessable entity</td>
+				<td><pre class="prettyprint lang-yaml">:problem: Missing `name` parameter
+</pre>
+</td>
+			</tr>
+	</tbody>
+</table>
+
+
+          <h2>Params</h2>
+          <table class='table'>
+            <thead>
+              <tr>
+                <th>Param name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>name </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Product name</p>
+
+        <p><strong>Validations:</strong></p>
+        <ul>
+            <li>
+<p>Must be a String</p>
+</li>
+        </ul>
+
+    </td>
+
+  </tr>
+
+  
+
+            </tbody>
+          </table>
+      </div>
+      <hr>
+
+      <ul class='breadcrumb' id='products-update'>
+        <li>
+          <a href='#'>Shimizusuntou</a>
+          <span class='divider'>/</span>
+        </li>
+        <li>
+          <a href='#products'>Products</a>
+          <span class='divider'>/</span>
+        </li>
+        <li class='active'>update</li>
+      </ul>
+
+      <div>
+          <h3>
+            <a href='#products-update'>
+              PATCH /v1/products/:id
+            </a><br>
+            <small>Updates an existing product</small>
+          </h3>
+          <h3>
+            <a href='#products-update'>
+              PUT /v1/products/:id
+            </a><br>
+            <small>Updates an existing product</small>
+          </h3>
+      </div>
+
+      <div>
+        
+<p>Updates an existing product.</p>
+
+          <h2>Examples</h2>
+            <pre>HTTP/1.1 204 No Content
+Cache-Control: no-cache
+Vary: Origin
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+X-Request-Id: 5088731b-2133-4552-9aeb-bb35edebbcee
+X-Runtime: 0.024239
+X-XSS-Protection: 1; mode=block
+</pre>
+
+          <h2>Errors</h2>
+          
+<table class="table table-bordered">
+	<thead>
+		<tr>
+			<th>Code</th>
+			<th>Description</th>
+			
+		</tr>
+	</thead>
+
+	<tbody>
+			<tr>
+				<td><span class="label label-inverse"> 404 </span></td>
+				<td>Product with that id hasn&#39;t been found.</td>
+			</tr>
+	</tbody>
+</table>
+
+
+          <h2>Params</h2>
+          <table class='table'>
+            <thead>
+              <tr>
+                <th>Param name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>name </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Product name</p>
+
+        <p><strong>Validations:</strong></p>
+        <ul>
+            <li>
+<p>Must be a String</p>
+</li>
+        </ul>
+
+    </td>
+
+  </tr>
+
+  
+
+            </tbody>
+          </table>
+      </div>
+      <hr>
+
+      <ul class='breadcrumb' id='products-destroy'>
+        <li>
+          <a href='#'>Shimizusuntou</a>
+          <span class='divider'>/</span>
+        </li>
+        <li>
+          <a href='#products'>Products</a>
+          <span class='divider'>/</span>
+        </li>
+        <li class='active'>destroy</li>
+      </ul>
+
+      <div>
+          <h3>
+            <a href='#products-destroy'>
+              DELETE /v1/products/:id
+            </a><br>
+            <small>Deletes a product in the system</small>
+          </h3>
+      </div>
+
+      <div>
+        
+<p>Deletes a product in the system given an id.</p>
+
+          <h2>Examples</h2>
+            <pre>HTTP/1.1 204 No Content
+Cache-Control: no-cache
+Vary: Origin
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+X-Request-Id: 841effba-dbac-4dae-a52c-312d5cdc4d5f
+X-Runtime: 0.021002
+X-XSS-Protection: 1; mode=block
+</pre>
+
+          <h2>Errors</h2>
+          
+<table class="table table-bordered">
+	<thead>
+		<tr>
+			<th>Code</th>
+			<th>Description</th>
+			
+		</tr>
+	</thead>
+
+	<tbody>
+			<tr>
+				<td><span class="label label-inverse"> 404 </span></td>
+				<td>Product with that id hasn&#39;t been found.</td>
+			</tr>
+	</tbody>
+</table>
+
+
+      </div>
+  </div>
+
+
+        
+      </div>
+    </div>
+    <hr>
+    <footer></footer>
+  </div>
+  <script type='text/javascript' src='apidoc/javascripts/bundled/jquery.js'></script>
+<script type='text/javascript' src='apidoc/javascripts/bundled/bootstrap-collapse.js'></script>
+<script type='text/javascript' src='apidoc/javascripts/bundled/prettify.js'></script>
+<script type='text/javascript' src='apidoc/javascripts/apipie.js'></script>
+</body>
+</html>
