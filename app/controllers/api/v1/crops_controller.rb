@@ -10,7 +10,11 @@ module Api::V1
 
     # GET /crops/:id
     def show
-      json_response(@crop)
+      if @crop
+        json_response(@crop)
+      else
+        json_response({:message => "Couldn't find Crop with id #{params[:id]}"}, :not_found)
+      end
     end
 
     # POST /crops
@@ -44,7 +48,7 @@ module Api::V1
     end
 
     def set_crop
-      @crop = Crop.where(show: true).find(params[:id])
+      @crop = Crop.find(params[:id])
     end
   end
 end

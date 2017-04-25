@@ -11,7 +11,11 @@ module Api::V1
 
     # GET /warehouses/:id
     def show
-      json_response(@warehouse)
+      if @warehouse
+        json_response(@warehouse)
+      else
+        json_response({:message => "Couldn't find Warehouse with id #{params[:id]}"}, :not_found)
+      end
     end
 
     # POST /warehouses
@@ -45,7 +49,7 @@ module Api::V1
     end
 
     def set_warehouse
-      @warehouse = Warehouse.where(show: true).find(params[:id])
+      @warehouse = Warehouse.find(params[:id])
     end
   end
 end

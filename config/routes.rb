@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  apipie
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
   # API Definition
@@ -9,7 +10,7 @@ Rails.application.routes.draw do
       end
 
       concern :parentable do
-       resources :products, only: [:index]
+        resources :products, only: [:index]
       end
 
       resources :producers, except: [:index], concerns: [:localizable, :parentable]

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>API documentation</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link type='text/css' rel='stylesheet' href='../stylesheets/bundled/bootstrap.min.css'/>
+<link type='text/css' rel='stylesheet' href='../stylesheets/bundled/prettify.css'/>
+<link type='text/css' rel='stylesheet' href='../stylesheets/bundled/bootstrap-responsive.min.css'/>
+  <link type='text/css' rel='stylesheet' href='../stylesheets/application.css'/>
+  <!-- IE6-8 support of HTML5 elements -->
+  <!--[if lt IE 9]>
+    <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+</head>
+<body>
+  <div class="container-fluid">
+    <div class="row-fluid">
+      <div id='container'>
+        <ul class='breadcrumb'>
+  <li>
+    <a href='../../apidoc.html'>Shimizusuntou 1.0</a>
+    <span class='divider'>/</span>
+  </li>
+  <li>
+    <a href='../products.html'>
+      Products
+      
+    </a>
+    <span class='divider'>/</span>
+  </li>
+  <li class='active'>index</li>
+  
+
+</ul>
+
+  <div class='page-header'>
+    <h1>
+      GET /v1/products
+      <br>
+      <small>Shows all products</small>
+    </h1>
+  </div>
+
+<div>
+
+  
+<p>Retrieves the whole list of products in the system. If there are not enough
+records an empty array is returned.</p>
+
+
+  <h2>Supported Formats</h2>
+  json
+
+
+
+  <h2>Examples</h2>
+    <pre class="prettyprint">HTTP/1.1 200 OK
+Cache-Control: max-age=0, private, must-revalidate
+Content-Type: application/json; charset=utf-8
+ETag: W/&quot;6a0c7e3f2e976bf46026ce615c506473&quot;
+Transfer-Encoding: chunked
+Vary: Origin
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+X-Request-Id: 3d8a06b0-e358-4d84-9a79-84e0ec580377
+X-Runtime: 0.145334
+X-XSS-Protection: 1; mode=block
+{
+    &quot;data&quot;: [
+        {
+            &quot;id&quot;: 196, 
+            &quot;name&quot;: &quot;90 Minute IPA&quot;
+        }, 
+        {
+            &quot;id&quot;: 382, 
+            &quot;name&quot;: &quot;Westmalle Trappist Tripel&quot;
+        }, 
+        {
+            &quot;id&quot;: 472, 
+            &quot;name&quot;: &quot;Yeti Imperial Stout&quot;
+        }
+    ]
+}
+</pre>
+
+
+
+
+</div>
+
+
+        
+      </div>
+    </div>
+    <hr>
+    <footer></footer>
+  </div>
+  <script type='text/javascript' src='../javascripts/bundled/jquery.js'></script>
+<script type='text/javascript' src='../javascripts/bundled/bootstrap-collapse.js'></script>
+<script type='text/javascript' src='../javascripts/bundled/prettify.js'></script>
+<script type='text/javascript' src='../javascripts/apipie.js'></script>
+</body>
+</html>
