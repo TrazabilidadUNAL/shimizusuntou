@@ -9,7 +9,11 @@ Rails.application.routes.draw do
         resources :places
       end
 
-      resources :producers, except: [:index], concerns: :localizable
+      concern :parentable do
+        resources :products, only: [:index]
+      end
+
+      resources :producers, except: [:index], concerns: [:localizable, :parentable]
       resources :warehouses, except: [:index], concerns: :localizable
       resources :products
       resources :containers
