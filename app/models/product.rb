@@ -25,4 +25,7 @@ class Product < ApplicationRecord
     Product.where("name ILIKE ?", "%#{query}%")
   end
 
+  def reorder_sort(sort)
+    Product.reorder("name #{sort}")
+  end
 end

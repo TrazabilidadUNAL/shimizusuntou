@@ -28,4 +28,9 @@ class Route < ApplicationRecord
     load(page, per_page).where(routes:{destination_id: destination_id})
   end
 
+  def self.search(query)
+    #Route.where("created_at ILIKE ?", "%#{query}%")
+    Route.where("created_at %#{query}%")
+  end
+
 end

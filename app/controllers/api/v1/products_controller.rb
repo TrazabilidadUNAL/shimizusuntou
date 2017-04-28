@@ -55,6 +55,9 @@ module Api::V1
       if params[:q].present?
         @products = Product.search(params[:q])
       end
+      if params[:sort].present?
+        @products.reorder_sort(params[:sort])
+      end
       json_response(@products)
     end
 

@@ -5,6 +5,9 @@ module Api::V1
     # GET /routes
     def index
       @routes = Route.where(show: true)
+      if params[:q].present?
+        @routes = Route.search(params[:q])
+      end
       json_response(@routes)
     end
 
