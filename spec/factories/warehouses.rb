@@ -5,7 +5,7 @@ FactoryGirl.define do
     password { Faker::Internet.password(8, 20) }
   end
 
-  factory :warehouse_with_place, class: 'Warehouse' do |f|
+  factory :warehouse_with_place, class: Warehouse do |f|
     f.name { Faker::Name.name }
     f.username { Faker::Internet.user_name }
     f.password { Faker::Internet.password(8, 20) }

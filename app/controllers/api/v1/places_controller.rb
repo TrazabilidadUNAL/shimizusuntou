@@ -50,7 +50,7 @@ module Api::V1
     EOM
 
     def index
-      @places = Place.where(show: true, localizable_id: @localizable.id, localizable_type: @localizable.class.name)
+      @places = Place.where(localizable_id: @localizable.id, localizable_type: @localizable.class.name)
       json_response(@places)
     end
 
