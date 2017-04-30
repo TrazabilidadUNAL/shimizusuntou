@@ -8,7 +8,7 @@ class Place < ApplicationRecord
   validates_presence_of :lon
 
   def localizable_type=(class_name)
-    super(class_name.constantize.base_class.to_s)
+    super(class_name.constantize.base_class.sti_name)
   end
 
   def destroy
