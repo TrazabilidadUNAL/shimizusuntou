@@ -3,8 +3,6 @@ class Warehouse < User
   alias_attribute :name, :first_name
 
   validates_presence_of :name
-  validates_presence_of :username
-  validates_presence_of :password
 
   default_scope {order("users.first_name ASC")}
   scope :order_by_name, -> (type) {order("users.first_name #{type}")}

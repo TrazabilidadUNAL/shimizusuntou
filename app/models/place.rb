@@ -1,5 +1,6 @@
 class Place < ApplicationRecord
   belongs_to :localizable, polymorphic: true
+
   has_many :origins, class_name: 'Route', foreign_key: :origin_id
   has_many :destinations, class_name: 'Route', foreign_key: :destination_id
 
@@ -7,10 +8,9 @@ class Place < ApplicationRecord
   validates_presence_of :lat
   validates_presence_of :lon
 
-  def localizable_type=(class_name)
-    super(class_name.constantize.base_class.sti_name)
+  def localizable_type=(sType)
+    p sType.to_s.classify.constantize.base_class.to_s
   end
-
   def destroy
     update_attribute(:show, false)
   end
