@@ -66,7 +66,7 @@ RSpec.describe Api::V1::ProducersController, type: :request do
       end
 
       it 'should return a validation failure message' do
-        expect(response.body).to match(/First name can't be blank, Last name can't be blank, Username can't be blank, Password can't be blank/)
+        expect(response.body).to match(/Username can't be blank, Password can't be blank, First name can't be blank, Last name can't be blank/)
       end
     end
   end

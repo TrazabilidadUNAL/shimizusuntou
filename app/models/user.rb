@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-  has_many :places, -> {where(show: true)}, as: :localizable
+  include Localizable
 
   validates_presence_of :username
   validates_presence_of :password
