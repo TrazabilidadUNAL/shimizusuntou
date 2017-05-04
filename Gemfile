@@ -26,6 +26,7 @@ gem 'puma', '~> 3.7'
 gem 'rack-cors'
 gem 'rack-attack'
 gem 'active_model_serializers'
+gem 'carrierwave', '~> 1.0'
 
 # Scope & paginator
 gem 'will_paginate', '~> 3.1.0'

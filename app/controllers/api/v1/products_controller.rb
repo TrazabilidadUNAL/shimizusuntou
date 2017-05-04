@@ -168,7 +168,7 @@ module Api::V1
     private
 
     def product_params
-      permitted = params.permit(:name)
+      permitted = params.permit(:name, :image)
     end
 
     def set_product

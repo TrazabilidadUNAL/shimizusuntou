@@ -2,6 +2,8 @@ class Product < ApplicationRecord
   has_many :crops
   validates_presence_of :name
 
+  mount_uploader :image, ImageUploader
+
   default_scope {order("products.name ASC")}
   scope :order_by_name, -> (name) {order("products.name #{name}")}
 
