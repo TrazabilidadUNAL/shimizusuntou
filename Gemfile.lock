@@ -48,6 +48,10 @@ GEM
     arel (8.0.0)
     builder (3.2.3)
     byebug (9.0.6)
+    carrierwave (1.1.0)
+      activemodel (>= 4.0.0)
+      activesupport (>= 4.0.0)
+      mime-types (>= 1.16)
     case_transform (0.2)
       activesupport
     concurrent-ruby (1.0.5)
@@ -167,6 +171,7 @@ DEPENDENCIES
   active_model_serializers
   apipie-rails (~> 0.5.0)
   byebug
+  carrierwave (~> 1.0)
   database_cleaner
   factory_girl_rails (~> 4.0)
   faker
