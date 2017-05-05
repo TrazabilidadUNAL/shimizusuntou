@@ -52,6 +52,11 @@ module Api::V1
 
     def index
       @products = Product.where(show: true)
+      if params[:sort].present?
+        @products = Product.search(params[:q],params[:sort])
+      elsif params[:q].present?
+        @products = Product.search(params[:q])
+      end
       json_response(@products)
     end
 

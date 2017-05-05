@@ -20,4 +20,16 @@ class Product < ApplicationRecord
   def self.by_crop(crop_id, page = 1, per_page = 10)
     load(page, per_page).where(crops:{id: crop_id})
   end
+
+  def self.search(query, sort = nil)
+    if sort.present?
+      if sort[0] == '-'
+        where("name ILIKE ?", "%#{query}%").reorder(sort[1,sort.size-1]+' DESC')
+      else
+        where("name ILIKE ?", "%#{query}%")
+      end
+    else
+      where("name ILIKE ?", "%#{query}%")
+    end
+  end
 end
