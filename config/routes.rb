@@ -4,6 +4,8 @@ Rails.application.routes.draw do
 
   # API Definition
   scope module: 'api' do
+    post '/sign-in', to: 'sessions#create'
+
     namespace :v1 do
       concern :localizable do
         resources :places
