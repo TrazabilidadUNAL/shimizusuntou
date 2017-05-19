@@ -50,7 +50,7 @@ module Api::V1
     EOM
 
     def index
-      @places = Place.where(show: true, localizable_id: @localizable.id, localizable_type: @localizable.class.name)
+      @places = @localizable.places
       json_response(@places)
     end
 
@@ -181,8 +181,8 @@ module Api::V1
     end
 
     def load_localizable
-      parent, id = request.path.split('/')[2, 2]
-      @localizable = parent.singularize.classify.constantize.find(id)
+      id = request.path.split('/')[3]
+      @localizable = User.find(id)
     end
   end
 end

@@ -1,15 +1,12 @@
-class Producer < ApplicationRecord
+class Producer < User
 
-  include Localizable
   has_many :crops
 
   validates_presence_of :first_name
   validates_presence_of :last_name
-  validates_presence_of :username
-  validates_presence_of :password
 
-  default_scope { order("producers.last_name ASC") }
-  scope :order_by_last_name, -> (last) { order("producers.last_name #{last}") }
+  default_scope { order("users.last_name ASC") }
+  scope :order_by_last_name, -> (last) { order("users.last_name #{last}") }
 
   def self.load
     includes(:places, crops: [:container, :product]).where(show: true)
