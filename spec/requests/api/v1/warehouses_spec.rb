@@ -14,7 +14,7 @@ RSpec.describe Api::V1::WarehousesController, type: :request do
   describe 'GET /v1/warehouses/:id' do
     before {
       warehouse.generate_auth_token
-      get "/v1/warehouses/#{warehouse_id}", :params => nil, :headers => {'Authorization' => "Token token=#{warehouse.auth_token}"}
+      get "/v1/warehouses/#{warehouse_id}", headers: {'Authorization' => "Token token=#{warehouse.auth_token}"}
     }
 
     context 'when the record exists' do
@@ -77,7 +77,10 @@ RSpec.describe Api::V1::WarehousesController, type: :request do
     let(:valid_attributes) {{name: "Jane"}}
 
     context 'when the record exists' do
-      before {put "/v1/warehouses/#{warehouse_id}", params: valid_attributes}
+      before {
+        warehouse.generate_auth_token
+        put "/v1/warehouses/#{warehouse_id}", params: valid_attributes, headers: {'Authorization' => "Token token=#{warehouse.auth_token}"}
+      }
 
       it 'should update the record' do
         expect(response.body).to be_empty
@@ -90,7 +93,10 @@ RSpec.describe Api::V1::WarehousesController, type: :request do
   end
 
   describe 'DELETE /v1/warehouses/:id' do
-    before {delete "/v1/warehouses/#{warehouse_id}"}
+    before {
+      warehouse.generate_auth_token
+      delete "/v1/warehouses/#{warehouse_id}", headers: {'Authorization' => "Token token=#{warehouse.auth_token}"}
+    }
 
     it 'should return status code 204' do
       expect(response).to have_http_status(204)
@@ -101,7 +107,10 @@ RSpec.describe Api::V1::WarehousesController, type: :request do
     let(:warehouse) {create(:warehouse_with_place, places_count: 15)}
 
     context 'when the warehouse has places indeed' do
-      before {get "/v1/warehouses/#{warehouse.id}/places"}
+      before {
+        warehouse.generate_auth_token
+        get "/v1/warehouses/#{warehouse.id}/places", headers: {'Authorization' => "Token token=#{warehouse.auth_token}"}
+      }
 
       it 'should return the places' do
         expect(json).not_to be_empty
@@ -122,7 +131,10 @@ RSpec.describe Api::V1::WarehousesController, type: :request do
     let(:valid_attributes) {{tag: tag, lat: lat, lon: lon}}
 
     context 'when the request is valid' do
-      before {post "/v1/warehouses/#{warehouse.id}/places", params: valid_attributes}
+      before {
+        warehouse.generate_auth_token
+        post "/v1/warehouses/#{warehouse.id}/places", params: valid_attributes, headers: {'Authorization' => "Token token=#{warehouse.auth_token}"}
+      }
       it 'should create the place' do
         expect(json['data']['tag']).to eq(tag)
         expect(json['data']['lon']).to eq(lon)
@@ -131,7 +143,10 @@ RSpec.describe Api::V1::WarehousesController, type: :request do
     end
 
     context 'when the request is invalid' do
-      before {post "/v1/warehouses/#{warehouse.id}/places", params: {tag: "Invalid place"}}
+      before {
+        warehouse.generate_auth_token
+        post "/v1/warehouses/#{warehouse.id}/places", params: {tag: "Invalid place"}, headers: {'Authorization' => "Token token=#{warehouse.auth_token}"}
+      }
 
       it 'should return status code 422' do
         expect(response).to have_http_status(422)
@@ -150,7 +165,10 @@ RSpec.describe Api::V1::WarehousesController, type: :request do
     let(:valid_attributes) {{tag: "Some tag for place"}}
 
     context 'when the record exists' do
-      before {put "/v1/warehouses/#{warehouse_id}/places/#{place_id}", params: valid_attributes}
+      before {
+        warehouse.generate_auth_token
+        put "/v1/warehouses/#{warehouse_id}/places/#{place_id}", params: valid_attributes, headers: {'Authorization' => "Token token=#{warehouse.auth_token}"}
+      }
 
       it 'should update the record\'s place' do
         expect(response.body).to be_empty
@@ -165,7 +183,10 @@ RSpec.describe Api::V1::WarehousesController, type: :request do
   describe 'DELETE /v1/warehouses/:id/places/:place_id' do
     let(:places) {create_list(:warehouse_place, 2)}
     let(:place_id) {places.first.id}
-    before {delete "/v1/warehouses/#{warehouse_id}/places/#{place_id}"}
+    before {
+      warehouse.generate_auth_token
+      delete "/v1/warehouses/#{warehouse_id}/places/#{place_id}", headers: {'Authorization' => "Token token=#{warehouse.auth_token}"}
+    }
 
     it 'should return status code 204' do
       expect(response).to have_http_status(204)
