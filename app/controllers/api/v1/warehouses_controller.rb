@@ -1,6 +1,6 @@
 module Api::V1
   class WarehousesController < ApplicationController
-
+    skip_before_action :require_login!, only: [:create]
     before_action :set_warehouse, only: [:show, :update, :destroy]
 
     # GET /producers
@@ -21,6 +21,7 @@ module Api::V1
     # POST /warehouses
     def create
       @warehouse = Warehouse.create!(warehouse_params)
+      @warehouse.generate_auth_token
       json_response(@warehouse, :created)
     end
 

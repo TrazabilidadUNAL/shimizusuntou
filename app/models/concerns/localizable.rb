@@ -2,6 +2,6 @@ module Localizable
   extend ActiveSupport::Concern
 
   included do
-    has_many :places, as: :localizable
+    has_many :places, -> {where(show: true)}, as: :localizable
   end
 end

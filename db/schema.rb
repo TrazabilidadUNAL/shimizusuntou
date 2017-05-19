@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170402192741) do
+ActiveRecord::Schema.define(version: 20170519004626) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -70,16 +70,6 @@ ActiveRecord::Schema.define(version: 20170402192741) do
     t.index ["localizable_type", "localizable_id"], name: "index_places_on_localizable_type_and_localizable_id"
   end
 
-  create_table "producers", force: :cascade do |t|
-    t.string "first_name"
-    t.string "last_name"
-    t.string "username"
-    t.string "password"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.boolean "show", default: true
-  end
-
   create_table "products", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -107,18 +97,26 @@ ActiveRecord::Schema.define(version: 20170402192741) do
     t.boolean "show", default: true
   end
 
-  create_table "warehouses", force: :cascade do |t|
-    t.string "name"
-    t.string "username"
-    t.string "password"
+  create_table "users", force: :cascade do |t|
+    t.string "username", null: false
+    t.string "password", null: false
+    t.string "email"
+    t.string "first_name"
+    t.string "last_name"
+    t.string "type"
+    t.boolean "show", default: true
+    t.integer "origin_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "show", default: true
+    t.string "auth_token"
+    t.datetime "token_created_at"
+    t.index ["auth_token", "token_created_at"], name: "index_users_on_auth_token_and_token_created_at"
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["username"], name: "index_users_on_username", unique: true
   end
 
   add_foreign_key "crop_logs", "crops"
   add_foreign_key "crops", "containers"
-  add_foreign_key "crops", "producers"
   add_foreign_key "crops", "products"
   add_foreign_key "packages", "crops"
   add_foreign_key "packages", "packages", column: "parent_id"
