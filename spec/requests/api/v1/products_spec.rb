@@ -1,11 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe Api::V1::ProductsController, type: :request do
-  let!(:products) { create_list(:product, 10) }
-  let(:product_id) { products.first.id }
+  let!(:products) {create_list(:product, 10)}
+  let(:product_id) {products.first.id}
+  let(:product) {products.first}
+  let(:producer_products) {create(:producer_products)}
 
   describe 'GET /v1/products' do
-    before { get '/v1/products' }
+    before {get '/v1/products'}
 
     it 'returns products' do
       expect(json).not_to be_empty
@@ -17,8 +19,24 @@ RSpec.describe Api::V1::ProductsController, type: :request do
     end
   end
 
+  describe 'GET /v1/producers/:id/products' do
+    before {
+      producer_products.generate_auth_token
+      get "/v1/producers/#{producer_products.id}/products", headers: {:Authorization => "Token token=#{producer_products.auth_token}"}
+    }
+
+    it 'returns products' do
+      expect(json).not_to be_empty
+      expect(json['data'].size).to be_between(1,5).inclusive
+    end
+
+    it 'returns status code 200' do
+      expect(response).to have_http_status(200)
+    end
+  end
+
   describe 'GET /v1/products/:id' do
-    before { get "/v1/products/#{product_id}" }
+    before {get "/v1/products/#{product_id}"}
 
     context 'when the record exists' do
       it 'returns the product' do
@@ -32,7 +50,7 @@ RSpec.describe Api::V1::ProductsController, type: :request do
     end
 
     context 'when the record does not exist' do
-      let(:product_id) { 100 }
+      let(:product_id) {1001}
 
       it 'returns status code 404' do
         expect(response).to have_http_status(404)
@@ -45,10 +63,10 @@ RSpec.describe Api::V1::ProductsController, type: :request do
   end
 
   describe 'POST /v1/product' do
-    let(:valid_attributes) { {name: 'Guinness'} }
+    let(:valid_attributes) {{name: 'Guinness'}}
 
     context 'when the request is valid' do
-      before { post '/v1/products', params: valid_attributes }
+      before {post '/v1/products', params: valid_attributes}
 
       it 'creates a product' do
         expect(json['data']['name']).to eq('Guinness')
@@ -60,7 +78,7 @@ RSpec.describe Api::V1::ProductsController, type: :request do
     end
 
     context 'when the request is invalid' do
-      before { post '/v1/products', params: {naem: "Guinness"} }
+      before {post '/v1/products', params: {naem: "Guinness"}}
 
       it 'returns status code 422' do
         expect(response).to have_http_status(422)
@@ -73,10 +91,10 @@ RSpec.describe Api::V1::ProductsController, type: :request do
   end
 
   describe 'PUT /v1/products/:id' do
-    let(:valid_attributes) { {name: 'Guinness'} }
+    let(:valid_attributes) {{name: 'Guinness'}}
 
     context 'when the record exists' do
-      before { put "/v1/products/#{product_id}", params: valid_attributes }
+      before {put "/v1/products/#{product_id}", params: valid_attributes}
 
       it 'updates the record' do
         expect(response.body).to be_empty
@@ -89,7 +107,7 @@ RSpec.describe Api::V1::ProductsController, type: :request do
   end
 
   describe 'DELETE /v1/products/:id' do
-    before { delete "/v1/products/#{product_id}" }
+    before {delete "/v1/products/#{product_id}"}
 
     it 'returns status code 204' do
       expect(response).to have_http_status(204)

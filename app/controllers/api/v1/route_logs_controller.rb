@@ -3,6 +3,10 @@ module Api::V1
 
     before_action :set_route_log, only: [:show, :update, :destroy]
 
+    has_scope :q, only: :index
+    has_scope :by_humidity, only: :index
+    has_scope :by_temperature, only: :index
+
     # GET /route_logs
     def index
       @route_logs = RouteLog.where(show: true)

@@ -3,6 +3,7 @@ class User < ApplicationRecord
 
   validates_presence_of :username
   validates_presence_of :password
+  validates_presence_of :email
 
   def generate_auth_token
     token = SecureRandom.hex

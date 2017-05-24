@@ -5,6 +5,11 @@ module Api::V1
     # GET /crops
     def index
       @crop_logs = CropLog.where(show: true)
+      if params[:sort].present?
+        @crop_logs = CropLog.search(params[:q],params[:sort])
+      elsif params[:q].present?
+        @crop_logs = CropLog.search(params[:q])
+      end
       json_response(@crop_logs)
     end
 

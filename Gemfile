@@ -14,6 +14,8 @@ gem 'puma', '~> 3.7'
 gem 'rack-cors'
 gem 'rack-attack'
 gem 'active_model_serializers'
+gem 'will_paginate', '~> 3.1.0'
+gem 'has_scope'
 
 gem 'apipie-rails', '~> 0.5.0'
 

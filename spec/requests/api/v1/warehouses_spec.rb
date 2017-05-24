@@ -45,7 +45,8 @@ RSpec.describe Api::V1::WarehousesController, type: :request do
     let(:wname) {Faker::Name.name}
     let(:uname) {Faker::Internet.user_name}
     let(:pswrd) {Faker::Internet.password(8)}
-    let(:valid_attributes) {{name: wname, username: uname, password: pswrd}}
+    let(:email) {Faker::Internet.email}
+    let(:valid_attributes) {{name: wname, username: uname, password: pswrd, email: email}}
 
     context 'when the request is valid' do
       before {post '/v1/warehouses', params: valid_attributes}
@@ -53,6 +54,7 @@ RSpec.describe Api::V1::WarehousesController, type: :request do
       it 'should create the warehouse' do
         expect(json['data']['name']).to eq(wname)
         expect(json['data']['username']).to eq(uname)
+        expect(json['data']['email']).to eq(email)
       end
 
       it 'should return status code 201' do
