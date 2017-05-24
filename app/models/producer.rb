@@ -25,7 +25,7 @@ class Producer < User
     update_attribute(:show, false)
   end
 
-  def products
+  def products()
     @products = Array.new([])
     @crops = self.crops
     @crops.each do |crop|

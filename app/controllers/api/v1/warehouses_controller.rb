@@ -21,7 +21,6 @@ module Api::V1
     # POST /warehouses
     def create
       @warehouse = Warehouse.create!(warehouse_params)
-      @warehouse.generate_auth_token
       json_response(@warehouse, :created)
     end
 
@@ -46,7 +45,7 @@ module Api::V1
     private
 
     def warehouse_params
-      params.permit(:place_id, :name, :username, :password)
+      params.permit(:place_id, :name, :username, :password, :email)
     end
 
     def set_warehouse

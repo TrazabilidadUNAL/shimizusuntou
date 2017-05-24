@@ -12,10 +12,11 @@ module Api::V1
     end
 
     def_param_group :producer do
-      param :first_name, String, 'Producer first name', :required => true
-      param :last_name, String, 'Producer last name', :required => true
-      param :username, String, "Producer account's username", :required => true
-      param :password, String, "Producer account's password", :required => true
+      param :first_name, String, 'Producer first name', required: true
+      param :last_name, String, 'Producer last name', required: true
+      param :username, String, "Producer unique account's username", required: true
+      param :password, String, "Producer account's password", required: true
+      param :email, String, "Producer's unique email account", required: true
     end
 
     api! 'Shows an specific producer'
@@ -40,7 +41,8 @@ module Api::V1
             "first_name": "John", 
             "id": 1, 
             "last_name": "Doe", 
-            "username": "jdoe"
+            "username": "jdoe",
+            "email": "jdoe@idk.com"
         }
     }
     EOM
@@ -75,7 +77,8 @@ module Api::V1
             "first_name": "John", 
             "id": 1, 
             "last_name": "Doe", 
-            "username": "jdoe"
+            "username": "jdoe",
+            "email": "jdoe@idk.com"
         }
     }
     EOM
@@ -130,7 +133,7 @@ module Api::V1
     private
 
     def producer_params
-      params.permit(:place_id, :first_name, :last_name, :username, :password)
+      params.permit(:place_id, :first_name, :last_name, :username, :password, :email)
     end
 
     def set_producer

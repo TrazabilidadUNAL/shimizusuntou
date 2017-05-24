@@ -4,6 +4,7 @@ class ApplicationController < ActionController::API
   include ActionController::HttpAuthentication::Token::ControllerMethods
   include Concerns::Response
   include Concerns::ExceptionHandler
+  include Concerns::Orderable
 
   before_action :require_login!
   helper_method :user_signed_in?, :current_user
