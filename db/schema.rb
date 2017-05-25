@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170525140126) do
+ActiveRecord::Schema.define(version: 20170525144037) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -53,8 +53,10 @@ ActiveRecord::Schema.define(version: 20170525140126) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "show", default: true
+    t.string "qrhash"
     t.index ["crop_id"], name: "index_packages_on_crop_id"
     t.index ["parent_id"], name: "index_packages_on_parent_id"
+    t.index ["qrhash"], name: "index_packages_on_qrhash"
     t.index ["route_id"], name: "index_packages_on_route_id"
   end
 

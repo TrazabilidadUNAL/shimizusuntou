@@ -8,6 +8,20 @@ class Package < ApplicationRecord
 
   scope :q, ->(q) {where('quantity ILIKE ? AND show = true', "%#{q}%")}
 
+  def self.create!(params)
+    p = self.new(params)
+    p.qrhash= SecureRandom.hex
+    p.save!
+    p
+  end
+
+  def self.create(params)
+    p = self.new(params)
+    p.qrhash= SecureRandom.hex
+    p.save
+    p
+  end
+
   def destroy
     @packages = Package.where(parent_id: self.id)
     @packages.each do |pack|
