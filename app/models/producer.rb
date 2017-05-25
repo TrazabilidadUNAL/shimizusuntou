@@ -22,30 +22,4 @@ class Producer < User
     update_attribute(:show, false)
   end
 
-  def products
-    @products = Array.new([])
-    @crops = self.crops
-    @crops.each do |crop|
-      unless @products.include?(crop.product)
-        @products.push(crop.product)
-      end
-    end
-    Product.by_ids(@products)
-  end
-
-  def routes
-    @routes = Array.new([])
-    Route.by_origin(self.places).each do |r|
-      @routes.push r
-    end
-    Route.by_destination(self.places).each do |r|
-      @routes.push r
-    end
-    Route.by_ids(@routes)
-  end
-
-  def packages
-    Package.by_routes(self.routes)
-  end
-
 end

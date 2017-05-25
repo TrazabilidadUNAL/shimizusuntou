@@ -30,11 +30,11 @@ class Package < ApplicationRecord
     load(page, per_page).where(packages: {id: ids})
   end
 
-  def self.by_route(route_id, page = 1, per_page = 10)
-    load(page, per_page).where(routes: {id: route_id})
+  def self.by_routes(route_ids, page = 1, per_page = 10)
+    load(page, per_page).where(routes: {id: route_ids})
   end
 
-  def self.by_crop(crop_id, page = 1, per_page = 10)
+  def self.by_crops(crop_id, page = 1, per_page = 10)
     load(page, per_page).where(crops: {id: crop_id})
   end
 

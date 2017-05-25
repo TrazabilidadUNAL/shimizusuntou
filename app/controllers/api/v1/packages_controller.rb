@@ -6,7 +6,11 @@ class Api::V1::PackagesController < ApplicationController
 
   # GET /packages
   def index
-    @packages = Package.where(show: true)
+    if @parentable && require_login!
+      @packages = apply_scopes(@parentable.packages).order(ordering_params(params)).all
+    else
+      @packages = apply_scopes(Package).order(ordering_params(params)).all
+    end
     json_response(@packages)
   end
 

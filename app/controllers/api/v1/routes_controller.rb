@@ -2,7 +2,6 @@ module Api::V1
   class RoutesController < ApplicationController
     skip_before_action :require_login!, except: []
     before_action :set_route, only: [:show, :update, :destroy]
-    before_action :load_parent
 
     has_scope :q, only: :index
 
@@ -52,13 +51,6 @@ module Api::V1
 
     def set_route
       @route = Route.find(params[:id])
-    end
-
-    def load_parent
-      if request.path.split('/')[2] != 'routes'
-        parent, id = request.path.split('/')[2, 2]
-        @parentable = parent.singularize.classify.constantize.find(id)
-      end
     end
 
   end
