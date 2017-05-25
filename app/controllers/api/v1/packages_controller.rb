@@ -1,6 +1,7 @@
 class Api::V1::PackagesController < ApplicationController
   skip_before_action :require_login!, except: []
   before_action :set_package, only: [:show, :update, :destroy]
+  before_action :set_origin
 
   has_scope :q, only: :index
 
@@ -47,6 +48,12 @@ class Api::V1::PackagesController < ApplicationController
   end
 
   private
+
+  def set_origin
+    if request
+      @package.origin=request
+    end
+  end
 
   def package_params
     params.permit(:parent_id, :crop_id, :route_id, :quantity)

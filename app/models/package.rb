@@ -1,6 +1,7 @@
 class Package < ApplicationRecord
 
   attr_accessor :qr_code
+  attr_accessor :origin
 
   belongs_to :crop
   belongs_to :route
@@ -35,6 +36,20 @@ class Package < ApplicationRecord
     self.save!
   end
 
+  def qr_code
+    qr = RQRCode::QRCode.new("http://#{origin.host}#{origin.port ? ":#{origin.port}" : ''}/#{self.qrhash}")
+    qr.to_img.resize(200, 200).to_data_url
+  end
+
+  def routes(routes = Array.new([]))
+    if self.parent.present?
+      self.parent.routes(routes.push(self.route_id))
+    else
+      routes.push(self.route_id)
+    end
+    Route.by_ids(routes)
+  end
+
   def self.load(page = 1, per_page = 10)
     includes(:route, :crop, :parent, :packages).paginate(:page => page, :per_page => per_page)
   end
@@ -63,11 +78,4 @@ class Package < ApplicationRecord
     load.where(packages: {qrhash: qrhash})
   end
 
-  private
-  def qr_code
-    qrcode = RQRCode::QRCode.new("http://localhost:3000/#{self.qrhash}")
-    Base.en
-    data = ActiveSupport::Base64.encode64(qrcode.as_png).gsub("\n", '')
-    "data:image/png;base64,#{data}"
-  end
 end
