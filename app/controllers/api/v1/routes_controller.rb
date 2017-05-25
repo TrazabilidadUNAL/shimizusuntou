@@ -4,6 +4,8 @@ module Api::V1
     before_action :set_route, only: [:show, :update, :destroy]
     before_action :load_parent
 
+    has_scope :q, only: :index
+
     # GET /routes
     def index
       if @parentable && require_login!

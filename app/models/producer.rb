@@ -5,9 +5,6 @@ class Producer < User
   validates_presence_of :first_name
   validates_presence_of :last_name
 
-  default_scope { order("users.last_name ASC") }
-  scope :order_by_last_name, -> (last) { order("users.last_name #{last}") }
-
   def self.load
     includes(:places, crops: [:container, :product]).where(show: true)
   end
@@ -25,7 +22,7 @@ class Producer < User
     update_attribute(:show, false)
   end
 
-  def products()
+  def products
     @products = Array.new([])
     @crops = self.crops
     @crops.each do |crop|
@@ -36,11 +33,18 @@ class Producer < User
     Product.by_ids(@products)
   end
 
-  def routes()
-    Route.by_ids(self.places)
+  def routes
+    @routes = Array.new([])
+    Route.by_origin(self.places).each do |r|
+      @routes.push r
+    end
+    Route.by_destination(self.places).each do |r|
+      @routes.push r
+    end
+    Route.by_ids(@routes)
   end
 
-  def packages()
+  def packages
     Package.by_routes(self.routes)
   end
 

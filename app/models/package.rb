@@ -6,6 +6,8 @@ class Package < ApplicationRecord
 
   validates_presence_of :quantity
 
+  scope :q, ->(q) {where('quantity ILIKE ? AND show = true', "%#{q}%")}
+
   def destroy
     @packages = Package.where(parent_id: self.id)
     @packages.each do |pack|
@@ -16,30 +18,27 @@ class Package < ApplicationRecord
     self.save!
   end
 
-  default_scope {order("packages.created_at DESC")}
-  scope :order_by_created_at, -> (date) {order("packages.created_at #{date}")}
-
   def self.load(page = 1, per_page = 10)
-    includes( :route, :crop, :parent, :packages).paginate(:page => page, :per_page => per_page)
+    includes(:route, :crop, :parent, :packages).paginate(:page => page, :per_page => per_page)
   end
 
   def self.by_id(id)
-    includes( :route, :crop, :parent, :packages).find_by({id: id})
+    includes(:route, :crop, :parent, :packages).find_by({id: id})
   end
 
   def self.by_ids(ids, page = 1, per_page = 10)
-    load(page, per_page).where(packages:{id: ids})
+    load(page, per_page).where(packages: {id: ids})
   end
 
   def self.by_route(route_id, page = 1, per_page = 10)
-    load(page, per_page).where(routes:{id: route_id})
+    load(page, per_page).where(routes: {id: route_id})
   end
 
   def self.by_crop(crop_id, page = 1, per_page = 10)
-    load(page, per_page).where(crops:{id: crop_id})
+    load(page, per_page).where(crops: {id: crop_id})
   end
 
   def self.by_parent(parent_id, page = 1, per_page = 10)
-    load(page, per_page).where(packages:{parent_id: parent_id})
+    load(page, per_page).where(packages: {parent_id: parent_id})
   end
 end

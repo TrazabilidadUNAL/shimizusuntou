@@ -1,5 +1,8 @@
 class Api::V1::PackagesController < ApplicationController
+  skip_before_action :require_login!, except: []
   before_action :set_package, only: [:show, :update, :destroy]
+
+  has_scope :q, only: :index
 
   # GET /packages
   def index
