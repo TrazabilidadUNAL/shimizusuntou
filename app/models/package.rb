@@ -1,4 +1,7 @@
 class Package < ApplicationRecord
+
+  attr_accessor :qr_code
+
   belongs_to :crop
   belongs_to :route
   belongs_to :parent, class_name: 'Package', optional: true
@@ -54,5 +57,17 @@ class Package < ApplicationRecord
 
   def self.by_parent(parent_id, page = 1, per_page = 10)
     load(page, per_page).where(packages: {parent_id: parent_id})
+  end
+
+  def self.by_qrhash(qrhash)
+    load.where(packages: {qrhash: qrhash})
+  end
+
+  private
+  def qr_code
+    qrcode = RQRCode::QRCode.new("http://localhost:3000/#{self.qrhash}")
+    Base.en
+    data = ActiveSupport::Base64.encode64(qrcode.as_png).gsub("\n", '')
+    "data:image/png;base64,#{data}"
   end
 end

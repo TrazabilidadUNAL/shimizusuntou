@@ -25,6 +25,7 @@ Rails.application.routes.draw do
 
       resources :producers, except: [:index], concerns: [:localizable, :user]
       resources :warehouses, except: [:index], concerns:[:localizable, :user, :user_crops]
+      resources :packages
     end
   end
 end
