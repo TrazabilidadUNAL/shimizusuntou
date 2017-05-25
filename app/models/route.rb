@@ -5,8 +5,7 @@ class Route < ApplicationRecord
   has_many :route_logs
   has_many :packages
 
-  default_scope {order("routes.created_at DESC")}
-  scope :order_by_created_at, -> (date) {order("routes.created_at #{date}")}
+  scope :q, ->(q) {where('origin_id ILIKE ? OR destination_id ILIKE ? AND show = true', "%#{q}%", "%#{q}%")}
 
   def self.load(page = 1, per_page = 10)
     includes( :origin, :destination, :route_logs, packages:[:parent, :crop]).paginate(:page => page, :per_page => per_page)

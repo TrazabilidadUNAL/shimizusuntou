@@ -36,4 +36,12 @@ class Producer < User
     Product.by_ids(@products)
   end
 
+  def routes()
+    Route.by_ids(self.places)
+  end
+
+  def packages()
+    Package.by_routes(self.routes)
+  end
+
 end

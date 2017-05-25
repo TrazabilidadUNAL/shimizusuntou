@@ -12,11 +12,17 @@ Rails.application.routes.draw do
         resources :places
       end
 
-      concern :parentable do
+      concern :prod_products do
         resources :products, only: [:index]
       end
+      concern :prod_routes do
+        resources :routes, only: [:index]
+      end
+      concern :prod_packages do
+        resources :packages, only: [:index]
+      end
 
-      resources :producers, except: [:index], concerns: [:localizable, :parentable]
+      resources :producers, except: [:index], concerns: [:localizable, :prod_products, :prod_routes, :prod_packages]
       resources :warehouses, except: [:index], concerns: :localizable
       resources :products
       resources :containers
