@@ -6,25 +6,28 @@ Rails.application.routes.draw do
   scope module: 'api' do
     post '/sign-in', to: 'sessions#create'
     delete '/sign-out', to: 'sessions#destroy'
+    get ':qrhash', to: 'v1/tracers#show'
 
     namespace :v1 do
       concern :localizable do
         resources :places
       end
 
-      concern :parentable do
-        resources :products, only: [:index]
+      concern :user do
+        resources :products
+        resources :routes
+        resources :containers
+        resources :packages
       end
 
-      resources :producers, except: [:index], concerns: [:localizable, :parentable]
-      resources :warehouses, except: [:index], concerns: :localizable
-      resources :products
-      resources :containers
-      resources :crops
-      resources :crop_logs
-      resources :routes
-      resources :route_logs
+      concern :user_crops do
+        resources :crops
+      end
+
+      resources :producers, except: [:index], concerns: [:localizable, :user]
+      resources :warehouses, except: [:index], concerns:[:localizable, :user, :user_crops]
       resources :packages
+      resources :routes
     end
   end
 end

@@ -3,6 +3,7 @@ class User < ApplicationRecord
 
   validates_presence_of :username
   validates_presence_of :password
+  validates_presence_of :email
 
   def generate_auth_token
     token = SecureRandom.hex
@@ -16,5 +17,33 @@ class User < ApplicationRecord
 
   def valid_password?(psswrd)
     self.password == psswrd
+  end
+
+  def crops
+  end
+
+  def products
+    @products = Array.new([])
+    self.crops.each do |crop|
+      unless @products.include?(crop.product)
+        @products.push(crop.product)
+      end
+    end
+    Product.by_ids(@products)
+  end
+
+  def routes
+    @routes = Array.new([])
+    Route.by_origin(self.places).each do |r|
+      @routes.push r
+    end
+    Route.by_destination(self.places).each do |r|
+      @routes.push r
+    end
+    Route.by_ids(@routes)
+  end
+
+  def packages
+    Package.by_routes(self.routes)
   end
 end

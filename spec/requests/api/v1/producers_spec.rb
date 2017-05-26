@@ -46,7 +46,8 @@ RSpec.describe Api::V1::ProducersController, type: :request do
     let(:lname) {Faker::Name.last_name}
     let(:uname) {Faker::Internet.user_name}
     let(:pswrd) {Faker::Internet.password(8)}
-    let(:valid_attributes) {{first_name: fname, last_name: lname, username: uname, password: pswrd}}
+    let(:email) {Faker::Internet.email}
+    let(:valid_attributes) {{first_name: fname, last_name: lname, username: uname, password: pswrd, email: email}}
 
     context 'when the request is valid' do
       before {post '/v1/producers', params: valid_attributes}
@@ -55,6 +56,7 @@ RSpec.describe Api::V1::ProducersController, type: :request do
         expect(json['data']['first_name']).to eq(fname)
         expect(json['data']['last_name']).to eq(lname)
         expect(json['data']['username']).to eq(uname)
+        expect(json['data']['email']).to eq(email)
       end
 
       it 'should return status code 201' do

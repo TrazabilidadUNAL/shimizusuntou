@@ -22,4 +22,17 @@ class CropLog < ApplicationRecord
     load(page, per_page).where(crops:{id: crop_id})
   end
 
+  def self.search(query, sort = nil)
+    if sort.present?
+      s = sort[1,sort.size-1]
+      if sort[0] == '-'
+        where("description ILIKE ?", "%#{query}%").order(s+' DESC')
+      else
+        where("description ILIKE ?", "%#{query}%").order(s+' ASC')
+      end
+    else
+      where("description ILIKE ?", "%#{query}%")
+    end
+  end
+
 end
