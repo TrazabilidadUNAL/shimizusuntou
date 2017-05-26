@@ -6,9 +6,6 @@ class RouteLog < ApplicationRecord
   validates_presence_of :lat
   validates_presence_of :lon
 
-  default_scope {order("route_logs.created_at DESC")}
-  scope :order_by_created_at, -> (date) {order("route_logs.created_at #{date}")}
-
   scope :q, ->(q) {where('humidity ILIKE ? OR temperature ILIKE ? OR lat ILIKE ? OR lon ILIKE ?', "%#{q}%", "%#{q}%", "%#{q}%", "%#{q}%")}
   scope :by_humidity, ->(q) {where(humidity: q, show: true)}
   scope :by_temperature, ->(q) {where(temperature: q, show: true)}

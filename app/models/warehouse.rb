@@ -20,4 +20,14 @@ class Warehouse < User
     update_attribute(:show, false)
   end
 
+  def crops
+    @crops = Array.new([])
+    self.packages.each do |p|
+      unless @crops.include?(p.crop)
+        @crops.push(p.crop)
+      end
+    end
+    Crop.by_ids (@crops)
+  end
+
 end

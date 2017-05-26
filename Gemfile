@@ -16,6 +16,7 @@ gem 'rack-attack'
 gem 'active_model_serializers'
 gem 'will_paginate', '~> 3.1.0'
 gem 'has_scope'
+gem 'rqrcode_png'
 
 gem 'apipie-rails', '~> 0.5.0'
 
