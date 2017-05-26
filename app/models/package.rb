@@ -37,8 +37,10 @@ class Package < ApplicationRecord
   end
 
   def qr_code
-    qr = RQRCode::QRCode.new("http://#{origin.host}#{origin.port ? ":#{origin.port}" : ''}/#{self.qrhash}")
-    qr.to_img.resize(200, 200).to_data_url
+    if origin
+      qr = RQRCode::QRCode.new("http://#{origin.host}#{origin.port ? ":#{origin.port}" : ''}/#{self.qrhash}")
+      qr.to_img.resize(200, 200).to_data_url
+    end
   end
 
   def routes(routes = Array.new([]))

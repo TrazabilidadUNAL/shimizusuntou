@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   scope module: 'api' do
     post '/sign-in', to: 'sessions#create'
     delete '/sign-out', to: 'sessions#destroy'
+    get ':qrhash', to: 'v1/tracers#show'
 
     namespace :v1 do
       concern :localizable do
@@ -26,6 +27,7 @@ Rails.application.routes.draw do
       resources :producers, except: [:index], concerns: [:localizable, :user]
       resources :warehouses, except: [:index], concerns:[:localizable, :user, :user_crops]
       resources :packages
+      resources :routes
     end
   end
 end
