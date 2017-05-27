@@ -1,7 +1,6 @@
 module Api::V1
   class TracersController < ApplicationController
     skip_before_action :require_login!, except: []
-    skip_before_action :load_parent
     before_action :set_tracer, only: [:show]
 
     def show

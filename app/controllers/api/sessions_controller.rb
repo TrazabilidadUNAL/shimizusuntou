@@ -1,7 +1,6 @@
 module Api
   class SessionsController < ApplicationController
     skip_before_action :require_login!, only: [:create]
-    skip_before_action :load_parent, except: []
 
     api! 'Starts a new session to use the API'
     description '

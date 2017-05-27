@@ -1,5 +1,4 @@
 class Producer < User
-
   has_many :crops
 
   validates_presence_of :first_name
@@ -16,10 +15,4 @@ class Producer < User
   def self.by_place(place_id)
     load.where(places: {id: place_id})
   end
-
-  def destroy
-    self.places.update_all(show: false)
-    update_attribute(:show, false)
-  end
-
 end
