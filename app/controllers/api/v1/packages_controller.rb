@@ -1,7 +1,6 @@
 class Api::V1::PackagesController < ApplicationController
   skip_before_action :require_login!, except: []
   before_action :set_package, only: [:show, :update, :destroy]
-  before_action :set_origin
 
   has_scope :q, only: :index
 
@@ -26,8 +25,8 @@ class Api::V1::PackagesController < ApplicationController
 
   # POST /packages
   def create
-    @package = Package.create!(package_params)
-    json_response(@tracer, :created)
+    @package = Package.create!(package_params, request)
+    json_response(@package, :created)
   end
 
   # PUT /packages/:id
@@ -48,12 +47,6 @@ class Api::V1::PackagesController < ApplicationController
   end
 
   private
-
-  def set_origin
-    if request
-      @pack.origin=request
-    end
-  end
 
   def package_params
     params.permit(:parent_id, :crop_id, :route_id, :quantity)

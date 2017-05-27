@@ -7,7 +7,6 @@ class ApplicationController < ActionController::API
   include Concerns::Orderable
 
   before_action :require_login!
-  before_action :load_parent
 
   helper_method :user_signed_in?, :current_user
 
@@ -29,10 +28,5 @@ class ApplicationController < ActionController::API
     authenticate_with_http_token do |token, options|
       User.where(auth_token: token).where('token_created_at >= ?', 1.month.ago).first
     end
-  end
-
-  def load_parent
-    parent, id = request.path.split('/')[2, 2]
-    @parentable = parent.singularize.classify.constantize.find(id)
   end
 end
