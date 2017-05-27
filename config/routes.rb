@@ -24,10 +24,10 @@ Rails.application.routes.draw do
         resources :crops
       end
 
-      resources :producers, except: [:index], concerns: [:localizable, :user]
+      resources :producers, except: [:show], concerns: [:localizable, :user]
       resources :warehouses, except: [:index], concerns:[:localizable, :user, :user_crops]
+
       resources :packages
-      resources :routes
     end
   end
 end

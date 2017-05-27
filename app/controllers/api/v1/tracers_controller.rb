@@ -6,7 +6,15 @@ module Api::V1
 
     def show
       if @tracer
-        json_response(@tracer, :ok, ['route', 'route.route_logs', 'product', 'crop', 'crop.crop_logs'])
+        json_response(@tracer, :ok, [
+            'route',
+            'route.origin',
+            'route.destination',
+            'route.route_logs',
+            'product',
+            'crop',
+            'crop.crop_logs'
+        ])
       else
         json_response({:message => "Couldn't find a qrhash with id #{params[:qrhash]}"}, :not_found)
       end

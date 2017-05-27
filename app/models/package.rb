@@ -1,7 +1,6 @@
 class Package < ApplicationRecord
 
   attr_accessor :qr_code
-  attr_accessor :origin
 
   belongs_to :crop
   belongs_to :route
@@ -12,14 +11,19 @@ class Package < ApplicationRecord
 
   scope :q, ->(q) {where('quantity ILIKE ? AND show = true', "%#{q}%")}
 
-  def self.create!(params)
+  def self.create!(params, origin = nil)
     p = self.new(params)
     p.qrhash= SecureRandom.hex
     p.save!
+    if origin
+      url = "http://#{origin.host}#{origin.port ? ":#{origin.port}" : ''}/#{p.qrhash}"
+      pp url
+      @@qr_code = RQRCode::QRCode.new(url)
+    end
     p
   end
 
-  def self.create(params)
+  def self.create(params, origin = nil)
     p = self.new(params)
     p.qrhash= SecureRandom.hex
     p.save
@@ -37,10 +41,7 @@ class Package < ApplicationRecord
   end
 
   def qr_code
-    if origin
-      qr = RQRCode::QRCode.new("http://#{origin.host}#{origin.port ? ":#{origin.port}" : ''}/#{self.qrhash}")
-      qr.to_img.resize(200, 200).to_data_url
-    end
+    @@qr_code.to_img.resize(200, 200).to_data_url
   end
 
   def routes(routes = Array.new([]))
