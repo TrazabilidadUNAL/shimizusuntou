@@ -11,6 +11,8 @@ class Place < ApplicationRecord
   def localizable_type=(sType)
     p sType.to_s.classify.constantize.base_class.to_s
   end
+
+  # TODO Destroy records of related models
   def destroy
     update_attribute(:show, false)
   end

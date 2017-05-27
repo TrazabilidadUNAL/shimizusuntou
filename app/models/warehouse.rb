@@ -15,11 +15,6 @@ class Warehouse < User
     load.where(places: {id: place_id})
   end
 
-  def destroy
-    self.places.update_all(show: false)
-    update_attribute(:show, false)
-  end
-
   def crops
     @crops = Array.new([])
     self.packages.each do |p|

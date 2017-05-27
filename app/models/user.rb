@@ -22,6 +22,12 @@ class User < ApplicationRecord
   def crops
   end
 
+  def destroy
+    self.places.update_all(show: false)
+    update_attribute(:show, false)
+    update_attribute(:auth_token, nil)
+  end
+
   def products
     @products = Array.new([])
     self.crops.each do |crop|
