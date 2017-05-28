@@ -225,7 +225,7 @@ module Api::V1
     end
 
     def set_place
-      @place = Place.find(params[:id])
+      @place = current_user.places.find(params[:id])
     end
   end
 end

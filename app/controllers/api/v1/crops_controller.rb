@@ -4,8 +4,7 @@ module Api::V1
 
     # GET /crops
     def index
-      @crops = Crop.where(show: true)
-      json_response(@crops)
+      json_response(current_user.crops)
     end
 
     # GET /crops/:id
@@ -39,16 +38,17 @@ module Api::V1
     private
 
     def crop_params
-      params.permit(:sow_date,
-                    :harvest_date,
-                    :container_id,
-                    :product_id,
-                    :producer_id
+      params.permit(
+          :sow_date,
+          :harvest_date,
+          :container_id,
+          :product_id,
+          :producer_id
       )
     end
 
     def set_crop
-      @crop = Crop.find(params[:id])
+      @crop = current_user.crops.find(params[:id])
     end
   end
 end

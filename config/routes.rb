@@ -14,9 +14,9 @@ Rails.application.routes.draw do
       end
 
       concern :user do
-        resources :products
+        resources :containers, only: [:index, :show]
+        resources :products, only: [:index, :show]
         resources :routes
-        resources :containers
         resources :packages
       end
 
@@ -24,10 +24,12 @@ Rails.application.routes.draw do
         resources :crops
       end
 
+      resources :packages
+      resources :containers, only: [:index, :show]
+      resources :products, only: [:index, :show]
+
       resource :producer, concerns: [:localizable, :user]
       resource :warehouse, concerns: [:localizable, :user, :user_crops]
-
-      resources :packages
     end
   end
 end

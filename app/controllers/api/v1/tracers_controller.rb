@@ -11,6 +11,7 @@ module Api::V1
             'route.destination',
             'route.route_logs',
             'product',
+            'container',
             'crop',
             'crop.crop_logs'
         ])
