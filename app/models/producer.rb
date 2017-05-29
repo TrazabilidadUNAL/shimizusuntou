@@ -15,4 +15,5 @@ class Producer < User
   def self.by_place(place_id)
     load.where(places: {id: place_id})
   end
+
 end
