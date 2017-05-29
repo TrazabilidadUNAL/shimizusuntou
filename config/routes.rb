@@ -21,15 +21,17 @@ Rails.application.routes.draw do
       end
 
       concern :user_crops do
-        resources :crops
+        resources :crops do
+          resources :crop_logs
+        end
       end
 
       resources :packages
       resources :containers, only: [:index, :show]
       resources :products, only: [:index, :show]
 
-      resource :producer, concerns: [:localizable, :user]
-      resource :warehouse, concerns: [:localizable, :user, :user_crops]
+      resource :producer, concerns: [:localizable, :user, :user_crops]
+      resource :warehouse, concerns: [:localizable, :user]
     end
   end
 end
