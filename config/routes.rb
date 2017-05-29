@@ -28,7 +28,6 @@ Rails.application.routes.draw do
         end
       end
 
-      resources :packages
       resources :containers, only: [:index, :show]
       resources :products, only: [:index, :show]
 

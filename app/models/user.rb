@@ -59,7 +59,7 @@ class User < ApplicationRecord
     Route.by_ids(@routes)
   end
 
-  def packages
-    Package.by_routes(self.routes)
+  def packages(origin = nil)
+    Package.by_routes(self.routes, origin)
   end
 end

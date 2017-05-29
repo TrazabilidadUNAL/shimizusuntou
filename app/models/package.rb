@@ -15,11 +15,7 @@ class Package < ApplicationRecord
     p = self.new(params)
     p.qrhash= SecureRandom.hex
     p.save!
-    if origin
-      url = "http://#{origin.host}#{origin.port ? ":#{origin.port}" : ''}/#{p.qrhash}"
-      pp url
-      @@qr_code = RQRCode::QRCode.new(url)
-    end
+    set_qr_code(origin)
     p
   end
 
@@ -41,7 +37,8 @@ class Package < ApplicationRecord
   end
 
   def qr_code
-    @@qr_code.to_img.resize(200, 200).to_data_url
+    url = "http://#{@@origin.host}#{@@origin.port ? ":#{@@origin.port}" : ''}/#{self.qrhash}"
+    RQRCode::QRCode.new(url).to_img.resize(200, 200).to_data_url
   end
 
   def routes(routes = Array.new([]))
@@ -65,7 +62,8 @@ class Package < ApplicationRecord
     load(page, per_page).where(packages: {id: ids})
   end
 
-  def self.by_routes(route_ids, page = 1, per_page = 10)
+  def self.by_routes(route_ids, origin, page = 1, per_page = 10)
+    @@origin = origin
     load(page, per_page).where(routes: {id: route_ids})
   end
 
