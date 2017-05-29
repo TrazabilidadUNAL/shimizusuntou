@@ -115,6 +115,7 @@ module Api::V1
     end
 
     def direct?
+      pp request.parameters
       if request.fullpath.split('/')[2] == 'containers'
         return true
       end

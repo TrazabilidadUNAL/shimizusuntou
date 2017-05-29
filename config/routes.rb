@@ -16,8 +16,10 @@ Rails.application.routes.draw do
       concern :user do
         resources :containers, only: [:index, :show]
         resources :products, only: [:index, :show]
-        resources :routes
         resources :packages
+        resources :routes do
+          resources :route_logs
+        end
       end
 
       concern :user_crops do

@@ -19,7 +19,7 @@ module Api::V1
       param :description, String, "Brief description of what's happening to the product.", required: true
     end
 
-    api! "Logs for a given crop"
+    api! 'Logs for a given crop'
     description 'Shows all the logs for a given crop.'
     formats ['json']
     error :code => 401, :desc => 'No valid token authentication key has been provided.'
@@ -214,7 +214,7 @@ module Api::V1
     private
 
     def crop_log_params
-      params.permit(:description, :crop_id)
+      params.permit(:description)
     end
 
     def set_crop_log
