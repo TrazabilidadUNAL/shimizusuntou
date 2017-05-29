@@ -12,18 +12,15 @@ class Package < ApplicationRecord
   scope :q, ->(q) {where('quantity ILIKE ? AND show = true', "%#{q}%")}
 
   def self.create!(params, origin = nil)
+    @@origin = origin
     p = self.new(params)
     p.qrhash= SecureRandom.hex
     p.save!
-    if origin
-      url = "http://#{origin.host}#{origin.port ? ":#{origin.port}" : ''}/#{p.qrhash}"
-      pp url
-      @@qr_code = RQRCode::QRCode.new(url)
-    end
     p
   end
 
   def self.create(params, origin = nil)
+    @@origin = origin
     p = self.new(params)
     p.qrhash= SecureRandom.hex
     p.save
@@ -33,15 +30,15 @@ class Package < ApplicationRecord
   def destroy
     @packages = Package.where(parent_id: self.id)
     @packages.each do |pack|
-      pack.show = false
-      pack.save!
+      pack.destroy
     end
     self.show = false
     self.save!
   end
 
   def qr_code
-    @@qr_code.to_img.resize(200, 200).to_data_url
+    url = "http://#{@@origin.host}#{@@origin.port ? ":#{@@origin.port}" : ''}/#{self.qrhash}"
+    RQRCode::QRCode.new(url).to_img.resize(200, 200).to_data_url
   end
 
   def routes(routes = Array.new([]))
@@ -65,7 +62,8 @@ class Package < ApplicationRecord
     load(page, per_page).where(packages: {id: ids})
   end
 
-  def self.by_routes(route_ids, page = 1, per_page = 10)
+  def self.by_routes(route_ids, origin, page = 1, per_page = 10)
+    @@origin = origin
     load(page, per_page).where(routes: {id: route_ids})
   end
 

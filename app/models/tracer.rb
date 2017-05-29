@@ -4,4 +4,8 @@ class Tracer < Package
   def product
     Product.by_id(self.crop.product_id)
   end
+
+  def container
+    Container.by_id(self.crop.container_id)
+  end
 end

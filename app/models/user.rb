@@ -24,8 +24,8 @@ class User < ApplicationRecord
 
   def destroy
     self.places.update_all(show: false)
-    update_attribute(:show, false)
     update_attribute(:auth_token, nil)
+    super
   end
 
   def products
@@ -36,6 +36,16 @@ class User < ApplicationRecord
       end
     end
     Product.by_ids(@products)
+  end
+
+  def containers
+    @containers = Array.new([])
+    self.crops.each do |crop|
+      unless @containers.include?(crop.container)
+        @containers.push(crop.container)
+      end
+    end
+    Container.by_ids(@containers)
   end
 
   def routes
@@ -49,7 +59,7 @@ class User < ApplicationRecord
     Route.by_ids(@routes)
   end
 
-  def packages
-    Package.by_routes(self.routes)
+  def packages(origin = nil)
+    Package.by_routes(self.routes, origin)
   end
 end

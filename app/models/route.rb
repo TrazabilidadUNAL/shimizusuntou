@@ -2,7 +2,7 @@ class Route < ApplicationRecord
   belongs_to :origin, class_name: 'Place'
   belongs_to :destination, class_name: 'Place'
 
-  has_many :route_logs
+  has_many :route_logs, -> {where show: true}
   has_many :packages
 
   scope :q, ->(q) {where('origin_id ILIKE ? OR destination_id ILIKE ? AND show = true', "%#{q}%", "%#{q}%")}

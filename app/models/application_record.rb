@@ -15,4 +15,8 @@ class ApplicationRecord < ActiveRecord::Base
     end
   end
 
+  def destroy
+    update_attribute(:show, false)
+  end
+
 end
