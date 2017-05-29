@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
   apipie
+
+  get '/', to: redirect('/apidoc')
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
   # API Definition
@@ -18,13 +20,13 @@ Rails.application.routes.draw do
         resources :products, only: [:index, :show]
         resources :packages
         resources :routes do
-          resources :route_logs
+          resources :details, controller: 'route_logs'
         end
       end
 
       concern :user_crops do
         resources :crops do
-          resources :crop_logs
+          resources :logs, controller: 'crop_logs'
         end
       end
 

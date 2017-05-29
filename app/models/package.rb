@@ -12,14 +12,15 @@ class Package < ApplicationRecord
   scope :q, ->(q) {where('quantity ILIKE ? AND show = true', "%#{q}%")}
 
   def self.create!(params, origin = nil)
+    @@origin = origin
     p = self.new(params)
     p.qrhash= SecureRandom.hex
     p.save!
-    set_qr_code(origin)
     p
   end
 
   def self.create(params, origin = nil)
+    @@origin = origin
     p = self.new(params)
     p.qrhash= SecureRandom.hex
     p.save
@@ -29,8 +30,7 @@ class Package < ApplicationRecord
   def destroy
     @packages = Package.where(parent_id: self.id)
     @packages.each do |pack|
-      pack.show = false
-      pack.save!
+      pack.destroy
     end
     self.show = false
     self.save!
