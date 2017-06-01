@@ -3,14 +3,16 @@ module Api
     skip_before_action :require_login!, only: [:create]
 
     api! 'Starts a new session to use the API'
-    description '
+    description <<-EOD
     Allows a user to start a new session to use the API.
     The session will live up for one month, or when the user decides to end it
     manually using the *sign-out* endpoint. The token at the response must be used
     in every request as a header:
 
     Authorization: Token token=b782494fb658ba74b07f414f51fd1008
-    '
+
+    Besides it tells what kind of user it is, whether a producer or a warehouse.
+    EOD
     formats ['json']
     error code: 401, desc: 'There is an error with either you email or password'
     param :user_login, Hash, desc: 'Session login object', required: true do
@@ -42,7 +44,8 @@ module Api
     X-Runtime: 0.013186
     
     {
-        "token": "b782494fb658ba74b07f414f51fd1008"
+        "token": "b782494fb658ba74b07f414f51fd1008",
+         "userType": "producer"
     }
     EOM
 
@@ -52,7 +55,7 @@ module Api
 
       if resource.valid_password?(params[:user_login][:password])
         auth_token = resource.generate_auth_token
-        json_response({token: auth_token})
+        json_response({token: auth_token, userType: resource.type.to_s.downcase})
       else
         invalid_login_attempt
       end
