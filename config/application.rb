@@ -39,6 +39,10 @@ module Shimizusuntou
         origins '*'
         resource '*', :headers => :any, :methods => [:get, :post, :put, :delete, :options]
       end
+      allow do
+        origins '*'
+        resource '*/packages', :headers => 'Host', :methods => [:get]
+      end
     end
 
   end
