@@ -37,7 +37,8 @@ class Package < ApplicationRecord
   end
 
   def qr_code
-    url = "http://#{@@origin.host}#{@@origin.port ? ":#{@@origin.port}" : ''}/#{self.qrhash}"
+    referer = @@origin.referer.split('/')
+    url = "#{referer[0]}//#{referer[2]}/#{self.qrhash}"
     RQRCode::QRCode.new(url).to_img.resize(200, 200).to_data_url
   end
 
