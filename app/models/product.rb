@@ -1,6 +1,6 @@
 class Product < ApplicationRecord
-  has_many :crops
   validates_presence_of :name
+  has_many :crops
 
   scope :q, ->(q) {where('name ILIKE ? AND show = true', "%#{q}%")}
 
